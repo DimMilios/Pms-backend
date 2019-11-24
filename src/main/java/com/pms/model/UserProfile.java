@@ -1,23 +1,32 @@
 package com.pms.model;
 
-import org.springframework.stereotype.Component;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "user")
-public class BasicUser implements IUser {
+@Table(name = "user_profiles")
+public class UserProfile implements IUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
+    @Column(unique = true)
     private String username;
 
     // TODO: ADD ENCRYPTION
+    @NotBlank
     private String password;
 
+    @NotBlank
+    @Column(unique = true)
     private String email;
+
+    @NotBlank
+    private Role role;
 
     public Long getId() {
         return id;
@@ -45,5 +54,15 @@ public class BasicUser implements IUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "BasicUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

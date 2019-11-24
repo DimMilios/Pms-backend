@@ -1,11 +1,28 @@
 package com.pms.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "admins")
 public class Admin {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns(
+        {
+            @JoinColumn(name = "user_profile_id", nullable = false, referencedColumnName = "id"),
+            @JoinColumn(name = "role", nullable = false, referencedColumnName = "role")
+        }
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private UserProfile userProfile;
 
 
 }
