@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class Initializer implements CommandLineRunner {
@@ -29,88 +31,34 @@ public class Initializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserProfile user1 = new UserProfile("george123", "123", "george123@test.com", Role.ADMIN);
-////        UserProfile userProfile1 = new UserProfile("mike123", "123", "mike123@test.com", Role.ADMIN);
-////        UserProfile user2 = new UserProfile();
-        System.out.println(user1.toString());
-//        userProfileDao.save(user1);
-////        userProfileDao.save(userProfile1);
-////        admin.setRole(Role.ADMIN);
-////        admin.setRole();
-////        admin.setUserProfile(user1);
-////
-////        adminDao.save(admin);
-////
-////        System.out.println();
-//
-        UserProfile adminProfile = userProfileDao.findById((long) 30).get();
-//
-////        UserProfile adminProfile = userProfileDao.findById((long) 6).get();
-////        System.out.println(adminProfile.toString());
-        Admin admin1 = createAdmin(adminProfile.getId());
-////        Admin admin = new Admin();
-////        adminDao.save(admin);
-////        System.out.println(admin.toString());
-////        Admin admin = initAdmin(admin1, adminProfile);
-        System.out.println(admin1.toString());
-////
-////
-////
-////        deleteAdmin(adminDao.findById((long) 27).get());
+        List<UserProfile> userProfiles = Arrays.asList(
+                new UserProfile("george123", "123", "george123@test.com", Role.ADMIN),
+                new UserProfile("gge123", "123", "gge123@test.com", Role.ADMIN),
+                new UserProfile("maria123", "123", "maria123@test.com", Role.STAFF),
+                new UserProfile("nikos123", "123", "nikos123@test.com", Role.USER)
+        );
+
+
+
+        userProfiles.stream()
+                .forEach(userProfile -> userProfileDao.save(userProfile));
+
+//        List<Admin> admins = userProfiles.stream()
+//                .filter(userProfile -> userProfile.getRole().equals(Role.ADMIN))
+//                .map(userProfile -> adminDao.save(new Admin(userProfile, userProfile.getId())))
+//                .collect(Collectors.toList());
+        List<Admin> admins = Arrays.asList(
+                new Admin(userProfiles.get(0), userProfiles.get(0).getId(), ("George", "Papas", "Ioannis"))
+        );
+
+        userProfiles.stream()
+                .forEach(System.out::println);
+
+        admins.stream()
+                .forEach(System.out::println);
+
+
     }
 
-//    @Override
-//    public void run(String... args) throws Exception {
-////        UserProfile userProfile1 = new UserProfile("john123", "123", "john123@test.com", Role.STAFF);
-////        userProfileDao.save(userProfile1);
-//
-//        UserProfile staffProfile = userProfileDao.findById((long) 28).get();
-//        Staff staff = createStaff(staffProfile);
-//
-//        PhoneNumber[] src = {
-//                new PhoneNumber("54353534534"),
-//                new PhoneNumber("68945534534"),
-//                new PhoneNumber("54353568674")
-//        };
-//        Set<PhoneNumber> phoneNumbers =
-//                new HashSet<PhoneNumber>(Arrays.asList(src));
-//
-//        staff = initStaff(staff, staffProfile, phoneNumbers);
-//        System.out.println(staff.toString());
-//    }
 
-    private Admin initAdmin(Admin ad, UserProfile adminProfile) {
-        Admin admin = adminDao.findById(ad.getId()).get();
-        admin.setUserProfile(adminProfile);
-        admin.setRole(adminProfile.getRole());
-        admin.setProfileId(adminProfile.getId());
-        return adminDao.save(admin);
-    }
-
-    private Admin createAdmin(Long userProfileId) {
-        Admin admin = new Admin();
-        UserProfile userProfile = userProfileDao.findById(userProfileId).get();
-        admin.setUserProfile(userProfile);
-        admin.setProfileId(userProfile.getId());
-        admin.setRole(userProfile.getRole());
-        return adminDao.save(admin);
-    }
-
-    private void deleteAdmin(Admin admin) {
-        adminDao.delete(admin);
-    }
-
-//    private Staff createStaff(UserProfile userProfile) {
-//        Staff staff = new Staff();
-//        return staffDao.save(staff);
-//    }
-//
-//    private Staff initStaff(Staff staff, UserProfile userProfile, Set<PhoneNumber> phoneNumbers) {
-//        Staff staff1 = staffDao.findById(staff.getId()).get();
-//        staff1.setUserProfile(userProfile);
-//        staff1.setRole(userProfile.getRole());
-//        staff1.setProfileId(userProfile.getId());
-//        staff1.setPhoneNumbers(phoneNumbers);
-//        return staffDao.save(staff1);
-//    }
 }

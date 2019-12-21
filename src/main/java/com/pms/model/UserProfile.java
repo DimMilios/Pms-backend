@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "user_profiles")
-public class UserProfile implements IUser, Serializable {
+public class UserProfile implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

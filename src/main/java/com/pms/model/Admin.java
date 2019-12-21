@@ -35,13 +35,12 @@ public class Admin {
     private FullName fullName;
 
     public Admin() {
-//        this.role = Role.ADMIN;
     }
 
-    public Admin(UserProfile userProfile, Long profileId) {
+    public Admin(UserProfile userProfile, Long profileId, FullName fullName) {
         this.userProfile = userProfile;
         this.profileId = profileId;
-//        this.role = Role.ADMIN;
+        this.fullName = fullName;
     }
 
     public Long getId() {
@@ -72,6 +71,14 @@ public class Admin {
         this.profileId = profileId;
     }
 
+    public FullName getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(FullName fullName) {
+        this.fullName = fullName;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +
@@ -79,6 +86,7 @@ public class Admin {
                 ", role=" + role +
                 ", profileId=" + profileId +
                 ", userProfile=" + userProfile +
+                ", fullName=" + fullName +
                 '}';
     }
 }
