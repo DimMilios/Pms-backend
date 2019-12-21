@@ -49,6 +49,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface UserDao extends CrudRepository<UserProfile, Long> {
+public interface UserProfileDao extends CrudRepository<UserProfile, Long> {
 }
 

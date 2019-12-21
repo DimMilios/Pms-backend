@@ -5,27 +5,47 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "staff")
-public class Staff {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Staff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumns(
-        {
-            @JoinColumn(name = "user_profile_id", nullable = false, referencedColumnName = "id"),
-            @JoinColumn(name = "role", nullable = false, referencedColumnName = "role")
-        }
+            {
+                    @JoinColumn(name = "user_profile_id", referencedColumnName = "id"),
+                    @JoinColumn(name = "user_profile_role", referencedColumnName = "role")
+            }
     )
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "staff")
-    private List<PhoneNumber> phoneNumbers;
+    @Column(name = "user_profile_role", insertable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(name = "user_profile_id", insertable = false, updatable = false)
+    private Long profileId;
+
+    @ElementCollection
+    @CollectionTable(
+            name="phone_no",
+            joinColumns = @JoinColumn(name = "staff_id")
+    )
+    private Set<PhoneNumber> phoneNumbers;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
+            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
+            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
+    })
+    private FullName fullName;
 
     private String city;
 
@@ -34,6 +54,18 @@ public class Staff {
     private int streetNumber;
 
     private int zipCode;
+
+    public Staff() {
+    }
+
+    public Staff(UserProfile userProfile, Set<PhoneNumber> phoneNumbers, String city, String address, int streetNumber, int zipCode) {
+        this.userProfile = userProfile;
+        this.phoneNumbers = phoneNumbers;
+        this.city = city;
+        this.address = address;
+        this.streetNumber = streetNumber;
+        this.zipCode = zipCode;
+    }
 
     public Long getId() {
         return id;
@@ -73,5 +105,37 @@ public class Staff {
 
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    public Set<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 }

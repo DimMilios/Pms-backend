@@ -4,38 +4,33 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
-@Table(name = "staff_phone_no")
-public class PhoneNumber implements Serializable {
+@Embeddable
+//@Table(name = "staff_phone_no")
+public class PhoneNumber {
 
-    @Id
-    @Column(name = "staff_id", nullable = false)
-    private Long staffId;
+//    @Id
+//    @Column(name = "staff_id", nullable = false)
+//    private Long staffId;
 
-    @Id
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @ManyToOne
-    @MapsId("staff_id")
-    private Staff staff;
+//    private Staff staff;
 
     public PhoneNumber() {
     }
 
-    public PhoneNumber(Long staffId, String phoneNumber, Staff staff) {
-        this.staffId = staffId;
+    public PhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-        this.staff = staff;
     }
 
-    public Long getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(Long staffId) {
-        this.staffId = staffId;
-    }
+//    public Long getStaffId() {
+//        return staffId;
+//    }
+//
+//    public void setStaffId(Long staffId) {
+//        this.staffId = staffId;
+//    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -45,11 +40,11 @@ public class PhoneNumber implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
+//    public Staff getStaff() {
+//        return staff;
+//    }
+//
+//    public void setStaff(Staff staff) {
+//        this.staff = staff;
+//    }
 }

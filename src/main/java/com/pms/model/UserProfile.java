@@ -1,13 +1,12 @@
 package com.pms.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user_profiles")
-public class UserProfile implements IUser {
+public class UserProfile implements IUser, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,8 +24,18 @@ public class UserProfile implements IUser {
     @Column(unique = true)
     private String email;
 
-    @NotBlank
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+    public UserProfile(@NotBlank String username, @NotBlank String password, @NotBlank String email, @NotBlank Role role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
+    public UserProfile() {
+    }
 
     public Long getId() {
         return id;
@@ -56,13 +65,22 @@ public class UserProfile implements IUser {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
-        return "BasicUser{" +
+        return "UserProfile{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
