@@ -1,5 +1,7 @@
 package com.pms.model;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,17 +9,11 @@ import javax.persistence.*;
 public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_profile_role", insertable = false, updatable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @Column(name = "user_profile_id", insertable = false, updatable = false)
-    private Long profileId;
-
-    @OneToOne(cascade = CascadeType.DETACH)
+    @Nullable
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumns(
             {
                     @JoinColumn(name = "user_profile_id", referencedColumnName = "id"),
@@ -26,20 +22,20 @@ public class Admin {
     )
     private UserProfile userProfile;
 
+    @Nullable
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
-            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
-            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
-    })
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
+//            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
+//            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
+//    })
     private FullName fullName;
 
     public Admin() {
     }
 
-    public Admin(UserProfile userProfile, Long profileId, FullName fullName) {
+    public Admin(UserProfile userProfile,  FullName fullName) {
         this.userProfile = userProfile;
-        this.profileId = profileId;
         this.fullName = fullName;
     }
 
@@ -59,18 +55,6 @@ public class Admin {
         this.userProfile = userProfile;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Long getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(Long profileId) {
-        this.profileId = profileId;
-    }
-
     public FullName getFullName() {
         return fullName;
     }
@@ -83,8 +67,6 @@ public class Admin {
     public String toString() {
         return "Admin{" +
                 "id=" + id +
-                ", role=" + role +
-                ", profileId=" + profileId +
                 ", userProfile=" + userProfile +
                 ", fullName=" + fullName +
                 '}';

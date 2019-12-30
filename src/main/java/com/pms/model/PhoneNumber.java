@@ -24,14 +24,6 @@ public class PhoneNumber {
         this.phoneNumber = phoneNumber;
     }
 
-//    public Long getStaffId() {
-//        return staffId;
-//    }
-//
-//    public void setStaffId(Long staffId) {
-//        this.staffId = staffId;
-//    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -40,11 +32,10 @@ public class PhoneNumber {
         this.phoneNumber = phoneNumber;
     }
 
-//    public Staff getStaff() {
-//        return staff;
-//    }
-//
-//    public void setStaff(Staff staff) {
-//        this.staff = staff;
-//    }
+    @Override
+    public String toString() {
+        return "PhoneNumber{" +
+                "phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }

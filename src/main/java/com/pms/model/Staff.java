@@ -13,7 +13,8 @@ import java.util.Set;
 public abstract class Staff {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique=true, nullable = false)
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -25,26 +26,20 @@ public abstract class Staff {
     )
     private UserProfile userProfile;
 
-    @Column(name = "user_profile_role", insertable = false, updatable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @Column(name = "user_profile_id", insertable = false, updatable = false)
-    private Long profileId;
-
     @ElementCollection
     @CollectionTable(
             name="phone_no",
             joinColumns = @JoinColumn(name = "staff_id")
     )
+    @Column(name = "phone_no")
     private Set<PhoneNumber> phoneNumbers;
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
-            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
-            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
-    })
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
+//            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
+//            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
+//    })
     private FullName fullName;
 
     private String city;
@@ -56,6 +51,7 @@ public abstract class Staff {
     private int zipCode;
 
     public Staff() {
+
     }
 
     public Staff(UserProfile userProfile, Set<PhoneNumber> phoneNumbers, String city, String address, int streetNumber, int zipCode) {
@@ -115,27 +111,30 @@ public abstract class Staff {
         this.userProfile = userProfile;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Long getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(Long profileId) {
-        this.profileId = profileId;
-    }
-
     public Set<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
 
     public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+
+    public FullName getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(FullName fullName) {
+        this.fullName = fullName;
+    }
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "staffId=" + id +
+                ", userProfile=" + userProfile +
+                ", fullName=" + fullName +
+                ", phoneNumbers=" + phoneNumbers +
+                '}';
     }
 }

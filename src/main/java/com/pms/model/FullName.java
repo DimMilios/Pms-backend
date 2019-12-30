@@ -32,4 +32,13 @@ public class FullName {
     public void setFatherName(String fatherName) {
         this.fatherName = fatherName;
     }
+
+    @Override
+    public String toString() {
+        return "FullName{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", fatherName='" + fatherName + '\'' +
+                '}';
+    }
 }

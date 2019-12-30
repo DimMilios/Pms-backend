@@ -4,6 +4,8 @@ import com.pms.model.UserProfile;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Methods provided by CrudRepository.
  *
@@ -50,5 +52,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserProfileDao extends CrudRepository<UserProfile, Long> {
-}
 
+    Optional<UserProfile> findByUsername(String username);
+
+    Optional<UserProfile> findByEmail(String email);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+}
