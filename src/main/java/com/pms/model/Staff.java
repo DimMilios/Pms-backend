@@ -1,21 +1,20 @@
 package com.pms.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "staff")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Staff {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Staff {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id", unique=true, nullable = false)
-    private Long id;
+    protected Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumns(
@@ -26,6 +25,16 @@ public abstract class Staff {
     )
     private UserProfile userProfile;
 
+    @Nullable
+    @Embedded
+    @JsonUnwrapped
+    private FullName fullName;
+
+    @Nullable
+    @Embedded
+    @JsonUnwrapped
+    private Address address;
+
     @ElementCollection
     @CollectionTable(
             name="phone_no",
@@ -34,33 +43,14 @@ public abstract class Staff {
     @Column(name = "phone_no")
     private Set<PhoneNumber> phoneNumbers;
 
-    @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
-//            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
-//            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
-//    })
-    private FullName fullName;
-
-    private String city;
-
-    private String address;
-
-    private int streetNumber;
-
-    private int zipCode;
-
     public Staff() {
 
     }
 
-    public Staff(UserProfile userProfile, Set<PhoneNumber> phoneNumbers, String city, String address, int streetNumber, int zipCode) {
+    public Staff(UserProfile userProfile, Set<PhoneNumber> phoneNumbers, Address address) {
         this.userProfile = userProfile;
         this.phoneNumbers = phoneNumbers;
-        this.city = city;
         this.address = address;
-        this.streetNumber = streetNumber;
-        this.zipCode = zipCode;
     }
 
     public Long getId() {
@@ -71,37 +61,6 @@ public abstract class Staff {
         this.id = id;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(int streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public int getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(int zipCode) {
-        this.zipCode = zipCode;
-    }
 
     public UserProfile getUserProfile() {
         return userProfile;
@@ -119,6 +78,14 @@ public abstract class Staff {
         this.phoneNumbers = phoneNumbers;
     }
 
+    public void setAddress(@Nullable Address address) {
+        this.address = address;
+    }
+
+    @Nullable
+    public Address getAddress() {
+        return address;
+    }
 
     public FullName getFullName() {
         return fullName;
@@ -131,10 +98,11 @@ public abstract class Staff {
     @Override
     public String toString() {
         return "Staff{" +
-                "staffId=" + id +
+                "id=" + id +
                 ", userProfile=" + userProfile +
-                ", fullName=" + fullName +
                 ", phoneNumbers=" + phoneNumbers +
+                ", fullName=" + fullName +
+                ", address=" + address +
                 '}';
     }
 }

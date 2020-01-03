@@ -3,12 +3,14 @@ package com.pms.controller;
 import com.pms.dao.LabStaffDao;
 import com.pms.model.LabStaff;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/lab-staff")
+@CrossOrigin
 public class LabStaffController {
 
     private LabStaffDao labStaffDao;
@@ -18,7 +20,7 @@ public class LabStaffController {
         this.labStaffDao = labStaffDao;
     }
 
-    @GetMapping(path = "lab-staff")
+    @GetMapping
     public Iterable<LabStaff> getAll() {
         return labStaffDao.findAll();
     }

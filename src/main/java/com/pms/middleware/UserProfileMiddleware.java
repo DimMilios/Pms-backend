@@ -1,9 +1,19 @@
 package com.pms.middleware;
 
+import com.pms.dao.UserProfileDao;
 import com.pms.model.UserProfile;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class UserProfileMiddleware {
+
     private UserProfileMiddleware next;
+
+    protected UserProfileDao userProfileDao;
+
+    @Autowired
+    public UserProfileMiddleware(UserProfileDao userProfileDao) {
+        this.userProfileDao = userProfileDao;
+    }
 
     /**
      * Builds chains of middleware objects.

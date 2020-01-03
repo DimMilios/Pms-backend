@@ -1,5 +1,6 @@
 package com.pms.model;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -24,11 +25,7 @@ public class Admin {
 
     @Nullable
     @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride(name = "firstName", column = @Column(name = "first_name")),
-//            @AttributeOverride(name = "lastName", column = @Column(name = "last_name")),
-//            @AttributeOverride(name = "fatherName", column = @Column(name = "father_name")),
-//    })
+    @JsonUnwrapped
     private FullName fullName;
 
     public Admin() {

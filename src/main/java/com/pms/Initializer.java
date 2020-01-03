@@ -94,22 +94,41 @@ public class Initializer implements CommandLineRunner {
                 new PhoneNumber("281007892")
         ));
 
+        List<Address> addresses = Arrays.asList(
+            new Address(),
+            new Address()
+        );
+
+        addresses.get(0).setCity("Aquila d'Arroscia");
+        addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
+        addresses.get(0).setZipCode(934356);
+
+        addresses.get(1).setCity("Port Hope");
+        addresses.get(1).setStreetAddress("1025 Pharetra Av.");
+        addresses.get(1).setZipCode(352061);
+
         FullName name = new FullName();
         name.setFirstName("George");
         name.setLastName("Papas");
         name.setFatherName("John");
 
-        staffList.get(0).setUserProfile(userProfiles.get(0));
-        staffList.get(1).setUserProfile(userProfiles.get(1));
-        staffList.get(2).setUserProfile(userProfiles.get(2));
-        staffList.get(3).setUserProfile(userProfiles.get(3));
+
+
+        staffList.get(0).setUserProfile(userProfiles.get(2));
+        staffList.get(1).setUserProfile(userProfiles.get(3));
+        staffList.get(2).setUserProfile(userProfiles.get(0));
+        staffList.get(3).setUserProfile(userProfiles.get(1));
 
         staffList.stream()
                 .forEach(staff -> staff.setPhoneNumbers(phoneNumbers));
 
+
         staffList.stream()
             .forEach(staff -> {
+                Random rand = new Random();
+                int random = rand.nextInt(2);
                 staff.setFullName(name);
+                staff.setAddress(addresses.get(random));
                 staffDao.save(staff);
             });
 

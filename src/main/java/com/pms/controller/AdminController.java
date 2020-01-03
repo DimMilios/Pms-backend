@@ -11,7 +11,8 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/admin")
+@CrossOrigin
 public class AdminController {
 
     private UserProfileDao userProfileDao;
@@ -23,24 +24,24 @@ public class AdminController {
         this.adminDao = adminDao;
     }
 
-    @GetMapping(path = "admin")
+    @GetMapping
     public Iterable<Admin> getAll() {
         return adminDao.findAll();
     }
 
-    @GetMapping(path = "admin/{adminId}")
+    @GetMapping(path = "{adminId}")
     public Admin getById(@PathVariable("adminId") Long adminId) {
         return adminDao.findById(adminId)
                 .orElseThrow(() ->
                         new RuntimeException("Could not find admin with id: " + adminId));
     }
 
-    @PostMapping(path = "admin")
+    @PostMapping
     public Admin createAdmin(@Valid @RequestBody Admin adminToAdd) {
         return adminDao.save(adminToAdd);
     }
 
-    @PutMapping(path = "admin/{adminId}")
+    @PutMapping(path = "{adminId}")
     public Admin updateAdmin(@PathVariable("adminId") Long adminId,
                              @Valid @RequestBody Admin newAdmin) {
 
@@ -54,7 +55,7 @@ public class AdminController {
                 new RuntimeException("Could not update admin with id: " + adminId));
     }
 
-    @DeleteMapping(path = "admin/{adminId}")
+    @DeleteMapping(path = "{adminId}")
     public ResponseEntity<?> deleteAdmin(@PathVariable Long adminId) {
         return adminDao.findById(adminId)
                 .map(admin -> {

@@ -2,15 +2,13 @@ package com.pms.middleware;
 
 import com.pms.dao.UserProfileDao;
 import com.pms.model.UserProfile;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserExistsMiddleware extends UserProfileMiddleware {
 
-    private UserProfileDao userProfileDao;
-
-    @Autowired
     public UserExistsMiddleware(UserProfileDao userProfileDao) {
-        this.userProfileDao = userProfileDao;
+        super(userProfileDao);
     }
 
     @Override

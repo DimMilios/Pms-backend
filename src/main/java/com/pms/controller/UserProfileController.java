@@ -10,7 +10,8 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "api")
+@RequestMapping(path = "api/user-profiles")
+@CrossOrigin
 public class UserProfileController {
 
     private UserProfileDao userProfileDao;
@@ -20,23 +21,23 @@ public class UserProfileController {
         this.userProfileDao = userProfileDao;
     }
 
-    @GetMapping(path = "user-profiles")
+    @GetMapping
     public Iterable<UserProfile> getAll() {
         return userProfileDao.findAll();
     }
 
-    @GetMapping(path = "user-profiles/{userProfileId}")
+    @GetMapping(path = "{userProfileId}")
     public UserProfile getById(@PathVariable("userProfileId") Long userProfileId) {
         return userProfileDao.findById(userProfileId)
                 .orElseThrow(() -> new RuntimeException("User with this userProfileId doesn't exist"));
     }
 
-    @PostMapping(path = "user-profiles")
+    @PostMapping
     public UserProfile createProfile(@Valid @RequestBody UserProfile profileToCreate) {
         return userProfileDao.save(profileToCreate);
     }
 
-    @PutMapping(path = "user-profiles/{userProfileId}")
+    @PutMapping(path = "{userProfileId}")
     public UserProfile updateProfile(@PathVariable("userProfileId") Long userProfileId,
                                      @Valid @RequestBody UserProfile newUserProfile) {
         Optional<UserProfile> userProfileToChange =  userProfileDao.findById(userProfileId);
@@ -52,7 +53,7 @@ public class UserProfileController {
     }
 
 
-    @DeleteMapping(path = "user-profiles/{userProfileId}")
+    @DeleteMapping(path = "{userProfileId}")
     public ResponseEntity<?> deleteProfile(@PathVariable("userProfileId") Long userProfileId) {
         return userProfileDao.findById(userProfileId)
                 .map(userProfile -> {
