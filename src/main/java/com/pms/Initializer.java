@@ -1,16 +1,13 @@
 package com.pms;
 
-import com.pms.dao.AdminDao;
-import com.pms.dao.StaffDao;
-import com.pms.dao.UserProfileDao;
+import com.pms.dao.*;
 import com.pms.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.print.Doc;
+import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class Initializer implements CommandLineRunner {
@@ -18,12 +15,16 @@ public class Initializer implements CommandLineRunner {
     private UserProfileDao userProfileDao;
     private AdminDao adminDao;
     private StaffDao staffDao;
+    private PatientDao patientDao;
+    private AppointmentDao appointmentDao;
 
     @Autowired
-    public Initializer(UserProfileDao userProfileDao, AdminDao adminDao, StaffDao staffDao) {
+    public Initializer(UserProfileDao userProfileDao, AdminDao adminDao, StaffDao staffDao, PatientDao patientDao, AppointmentDao appointmentDao) {
         this.userProfileDao = userProfileDao;
         this.adminDao = adminDao;
         this.staffDao = staffDao;
+        this.patientDao = patientDao;
+        this.appointmentDao = appointmentDao;
     }
 
 //    @Override
@@ -72,27 +73,128 @@ public class Initializer implements CommandLineRunner {
 //
 //    }
 
+//    @Override
+//    public void run(String ...args) throws Exception {
+//        List<Staff> staffList = Arrays.asList(
+//                new Doctor(),
+//                new Doctor(),
+//                new LabStaff(),
+//                new LabStaff()
+//        );
+//        List<UserProfile> userProfiles = Arrays.asList(
+//                new UserProfile("george123", "123", "george123@test.com", Role.STAFF),
+//                new UserProfile("gge123", "123", "gge123@test.com", Role.STAFF),
+//                new UserProfile("maria123", "123", "maria123@test.com", Role.STAFF),
+//                new UserProfile("nikos123", "123", "nikos123@test.com", Role.STAFF)
+//        );
+//
+//
+//        Set<PhoneNumber> phoneNumbers = new HashSet<>(Arrays.asList(
+////                new PhoneNumber("281035354"),
+////                new PhoneNumber("281035861"),
+//                new PhoneNumber("281007892")
+//        ));
+//
+//        List<Address> addresses = Arrays.asList(
+//            new Address(),
+//            new Address()
+//        );
+//
+//        addresses.get(0).setCity("Aquila d'Arroscia");
+//        addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
+//        addresses.get(0).setZipCode(934356);
+//
+//        addresses.get(1).setCity("Port Hope");
+//        addresses.get(1).setStreetAddress("1025 Pharetra Av.");
+//        addresses.get(1).setZipCode(352061);
+//
+//        FullName name = new FullName();
+//        name.setFirstName("George");
+//        name.setLastName("Papas");
+//        name.setFatherName("John");
+//
+//
+//
+//        staffList.get(0).setUserProfile(userProfiles.get(2));
+//        staffList.get(1).setUserProfile(userProfiles.get(3));
+//        staffList.get(2).setUserProfile(userProfiles.get(0));
+//        staffList.get(3).setUserProfile(userProfiles.get(1));
+//
+//        staffList.stream()
+//                .forEach(staff -> staff.setPhoneNumbers(phoneNumbers));
+//
+//
+//        staffList.stream()
+//            .forEach(staff -> {
+//                Random rand = new Random();
+//                int random = rand.nextInt(2);
+//                staff.setFullName(name);
+//                staff.setAddress(addresses.get(random));
+//                staffDao.save(staff);
+//            });
+//
+//        staffList.stream()
+//                .forEach(System.out::println);
+//    }
+
+
     @Override
-    public void run(String ...args) throws Exception {
-        List<Staff> staffList = Arrays.asList(
-                new Doctor(),
-                new Doctor(),
-                new LabStaff(),
-                new LabStaff()
+    public void run(String... args) throws Exception {
+        List<Patient> patientList = Arrays.asList(
+                new Patient(),
+                new Inpatient(),
+                new Patient(),
+                new Inpatient()
         );
+
         List<UserProfile> userProfiles = Arrays.asList(
-                new UserProfile("george123", "123", "george123@test.com", Role.STAFF),
-                new UserProfile("gge123", "123", "gge123@test.com", Role.STAFF),
-                new UserProfile("maria123", "123", "maria123@test.com", Role.STAFF),
-                new UserProfile("nikos123", "123", "nikos123@test.com", Role.STAFF)
+                new UserProfile("george123", "123", "george123@test.com", Role.USER),
+                new UserProfile("gge123", "123", "gge123@test.com", Role.USER),
+                new UserProfile("maria123", "123", "maria123@test.com", Role.USER),
+                new UserProfile("nikos123", "123", "nikos123@test.com", Role.USER)
         );
 
+        userProfiles.stream()
+                .forEach(userProfile -> userProfileDao.save(userProfile));
 
-        Set<PhoneNumber> phoneNumbers = new HashSet<>(Arrays.asList(
-//                new PhoneNumber("281035354"),
-//                new PhoneNumber("281035861"),
-                new PhoneNumber("281007892")
-        ));
+        FullName name = new FullName();
+        name.setFirstName("George");
+        name.setLastName("Papas");
+        name.setFatherName("John");
+
+        patientList.get(0).setSsn((long) 435566622);
+        patientList.get(1).setSsn((long) 987666622);
+        patientList.get(2).setSsn((long) 067766622);
+        patientList.get(3).setSsn((long) 123666622);
+
+//        patientList.get(0).setUserProfile(userProfiles.get(2));
+//        patientList.get(1).setUserProfile(userProfiles.get(3));
+//        patientList.get(2).setUserProfile(userProfiles.get(0));
+//        patientList.get(3).setUserProfile(userProfiles.get(1));
+
+        patientList.get(0).setOccupation("Teacher");
+        patientList.get(1).setOccupation("Driver");
+        patientList.get(2).setOccupation("Accountant");
+        patientList.get(3).setOccupation("Police Officer");
+
+        patientList.get(0).setSex(Sex.MALE);
+        patientList.get(1).setSex(Sex.FEMALE);
+        patientList.get(2).setSex(Sex.FEMALE);
+        patientList.get(3).setSex(Sex.MALE);
+
+        Inpatient inp1 = new Inpatient();
+        Inpatient inp2 = new Inpatient();
+
+        long timeNow = System.currentTimeMillis();
+
+        inp1.setAdmitDate(new Timestamp(timeNow));
+        inp2.setAdmitDate(new Timestamp(timeNow));
+
+        inp1.setSsn((long) 567760098);
+        inp2.setSsn((long) 123669988);
+
+        patientDao.save(inp1);
+        patientDao.save(inp2);
 
         List<Address> addresses = Arrays.asList(
             new Address(),
@@ -107,34 +209,23 @@ public class Initializer implements CommandLineRunner {
         addresses.get(1).setStreetAddress("1025 Pharetra Av.");
         addresses.get(1).setZipCode(352061);
 
-        FullName name = new FullName();
-        name.setFirstName("George");
-        name.setLastName("Papas");
-        name.setFatherName("John");
+        patientList.stream()
+                .forEach(patient -> patientDao.save(patient));
 
+        Doctor doc1 = new Doctor();
+        doc1.setAddress(addresses.get(0));
+        staffDao.save(doc1);
 
+        AppointmentKey key = new AppointmentKey();
+        key.setDoctorId(doc1.getId());
+        key.setPatientSsn(inp1.getSsn());
 
-        staffList.get(0).setUserProfile(userProfiles.get(2));
-        staffList.get(1).setUserProfile(userProfiles.get(3));
-        staffList.get(2).setUserProfile(userProfiles.get(0));
-        staffList.get(3).setUserProfile(userProfiles.get(1));
+        Appointment appointment = new Appointment();
+        appointment.setId(key);
+        appointment.setDoctor(doc1);
+        appointment.setPatient(inp1);
+        appointment.setAppointmentDate(new Timestamp(timeNow));
 
-        staffList.stream()
-                .forEach(staff -> staff.setPhoneNumbers(phoneNumbers));
-
-
-        staffList.stream()
-            .forEach(staff -> {
-                Random rand = new Random();
-                int random = rand.nextInt(2);
-                staff.setFullName(name);
-                staff.setAddress(addresses.get(random));
-                staffDao.save(staff);
-            });
-
-        staffList.stream()
-                .forEach(System.out::println);
+        appointmentDao.save(appointment);
     }
-
-
 }
