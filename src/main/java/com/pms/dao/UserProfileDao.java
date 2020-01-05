@@ -60,4 +60,5 @@ public interface UserProfileDao extends CrudRepository<UserProfile, Long> {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
 }

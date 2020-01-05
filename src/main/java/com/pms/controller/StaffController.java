@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/staff")
@@ -46,6 +47,11 @@ public class StaffController {
     @PostMapping
     public Staff create(@Valid @RequestBody Staff staffToCreate) {
         return staffDao.save(staffToCreate);
+    }
+
+    @PutMapping(path = "{staffId}")
+    public Staff update(@Valid @RequestBody Staff staffToUpdate, @PathVariable Long staffId) {
+        return staffDao.save(staffToUpdate);
     }
 
     @DeleteMapping(path = "{staffId}")

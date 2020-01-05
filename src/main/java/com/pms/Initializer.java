@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class Initializer implements CommandLineRunner {
@@ -138,68 +140,120 @@ public class Initializer implements CommandLineRunner {
 //    }
 
 
+//    @Override
+//    public void run(String... args) throws Exception {
+//        List<Patient> patientList = Arrays.asList(
+//                new Patient(),
+//                new Inpatient(),
+//                new Patient(),
+//                new Inpatient()
+//        );
+//
+//        List<UserProfile> userProfiles = Arrays.asList(
+//                new UserProfile("george123", "123", "george123@test.com", Role.USER),
+//                new UserProfile("gge123", "123", "gge123@test.com", Role.USER),
+//                new UserProfile("maria123", "123", "maria123@test.com", Role.USER),
+//                new UserProfile("nikos123", "123", "nikos123@test.com", Role.USER)
+//        );
+//
+//        userProfiles.stream()
+//                .forEach(userProfile -> userProfileDao.save(userProfile));
+//
+//        FullName name = new FullName();
+//        name.setFirstName("George");
+//        name.setLastName("Papas");
+//        name.setFatherName("John");
+//
+//        patientList.get(0).setSsn((long) 435566622);
+//        patientList.get(1).setSsn((long) 987666622);
+//        patientList.get(2).setSsn((long) 067766622);
+//        patientList.get(3).setSsn((long) 123666622);
+//
+//        patientList.stream().forEach(patient -> patient.setFullName(name));
+//
+////        patientList.get(0).setUserProfile(userProfiles.get(2));
+////        patientList.get(1).setUserProfile(userProfiles.get(3));
+////        patientList.get(2).setUserProfile(userProfiles.get(0));
+////        patientList.get(3).setUserProfile(userProfiles.get(1));
+//
+//        patientList.get(0).setOccupation("Teacher");
+//        patientList.get(1).setOccupation("Driver");
+//        patientList.get(2).setOccupation("Accountant");
+//        patientList.get(3).setOccupation("Police Officer");
+//
+//        patientList.get(0).setSex(Sex.MALE);
+//        patientList.get(1).setSex(Sex.FEMALE);
+//        patientList.get(2).setSex(Sex.FEMALE);
+//        patientList.get(3).setSex(Sex.MALE);
+//
+//        Inpatient inp1 = new Inpatient();
+//        Inpatient inp2 = new Inpatient();
+//
+//        long timeNow = System.currentTimeMillis();
+//
+//        inp1.setAdmitDate(new Timestamp(timeNow));
+//        inp2.setAdmitDate(new Timestamp(timeNow));
+//
+//        inp1.setSsn((long) 567760098);
+//        inp2.setSsn((long) 123669988);
+//
+////        patientDao.save(inp1);
+////        patientDao.save(inp2);
+//
+//        List<Address> addresses = Arrays.asList(
+//            new Address(),
+//            new Address()
+//        );
+//
+//        addresses.get(0).setCity("Aquila d'Arroscia");
+//        addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
+//        addresses.get(0).setZipCode(934356);
+//
+//        addresses.get(1).setCity("Port Hope");
+//        addresses.get(1).setStreetAddress("1025 Pharetra Av.");
+//        addresses.get(1).setZipCode(352061);
+//
+//        patientList.stream()
+//                .forEach(patient -> patientDao.save(patient));
+//
+//        Doctor doc1 = new Doctor();
+//        doc1.setAddress(addresses.get(0));
+//        staffDao.save(doc1);
+//
+////        AppointmentKey key = new AppointmentKey();
+////        key.setDoctorId(doc1.getId());
+////        key.setPatientSsn(inp1.getSsn());
+////
+////        Appointment appointment = new Appointment();
+////        appointment.setId(key);
+////        appointment.setDoctor(doc1);
+////        appointment.setPatient(inp1);
+////        appointment.setAppointmentDate(new Timestamp(timeNow));
+////
+////        appointmentDao.save(appointment);
+//    }
+
+
     @Override
     public void run(String... args) throws Exception {
-        List<Patient> patientList = Arrays.asList(
-                new Patient(),
-                new Inpatient(),
-                new Patient(),
-                new Inpatient()
-        );
 
-        List<UserProfile> userProfiles = Arrays.asList(
-                new UserProfile("george123", "123", "george123@test.com", Role.USER),
-                new UserProfile("gge123", "123", "gge123@test.com", Role.USER),
-                new UserProfile("maria123", "123", "maria123@test.com", Role.USER),
-                new UserProfile("nikos123", "123", "nikos123@test.com", Role.USER)
-        );
+        UserProfile userProfile = UserProfileBuilder
+                .userProfile()
+                .withEmail("test@test.com")
+                .withUsername("nikos123")
+                .withPassword("123")
+                .withRole("USER")
+                .build();
 
-        userProfiles.stream()
-                .forEach(userProfile -> userProfileDao.save(userProfile));
+        List<Address> addresses = Arrays.asList(
+                new Address(),
+                new Address()
+        );
 
         FullName name = new FullName();
         name.setFirstName("George");
         name.setLastName("Papas");
         name.setFatherName("John");
-
-        patientList.get(0).setSsn((long) 435566622);
-        patientList.get(1).setSsn((long) 987666622);
-        patientList.get(2).setSsn((long) 067766622);
-        patientList.get(3).setSsn((long) 123666622);
-
-//        patientList.get(0).setUserProfile(userProfiles.get(2));
-//        patientList.get(1).setUserProfile(userProfiles.get(3));
-//        patientList.get(2).setUserProfile(userProfiles.get(0));
-//        patientList.get(3).setUserProfile(userProfiles.get(1));
-
-        patientList.get(0).setOccupation("Teacher");
-        patientList.get(1).setOccupation("Driver");
-        patientList.get(2).setOccupation("Accountant");
-        patientList.get(3).setOccupation("Police Officer");
-
-        patientList.get(0).setSex(Sex.MALE);
-        patientList.get(1).setSex(Sex.FEMALE);
-        patientList.get(2).setSex(Sex.FEMALE);
-        patientList.get(3).setSex(Sex.MALE);
-
-        Inpatient inp1 = new Inpatient();
-        Inpatient inp2 = new Inpatient();
-
-        long timeNow = System.currentTimeMillis();
-
-        inp1.setAdmitDate(new Timestamp(timeNow));
-        inp2.setAdmitDate(new Timestamp(timeNow));
-
-        inp1.setSsn((long) 567760098);
-        inp2.setSsn((long) 123669988);
-
-        patientDao.save(inp1);
-        patientDao.save(inp2);
-
-        List<Address> addresses = Arrays.asList(
-            new Address(),
-            new Address()
-        );
 
         addresses.get(0).setCity("Aquila d'Arroscia");
         addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
@@ -209,23 +263,23 @@ public class Initializer implements CommandLineRunner {
         addresses.get(1).setStreetAddress("1025 Pharetra Av.");
         addresses.get(1).setZipCode(352061);
 
-        patientList.stream()
-                .forEach(patient -> patientDao.save(patient));
+        Set<PhoneNumber> phoneNumbers = new HashSet<>(Arrays.asList(
+                new PhoneNumber("281035354"),
+                new PhoneNumber("281035861"),
+                new PhoneNumber("281007892")
+        ));
 
-        Doctor doc1 = new Doctor();
-        doc1.setAddress(addresses.get(0));
-        staffDao.save(doc1);
+        Staff doc = StaffBuilder.staff()
+                .withAddress(addresses.get(0))
+                .withFullName(name)
+                .withUserProfile(userProfile)
+                .withPhoneNumbers(phoneNumbers)
+                .build();
 
-        AppointmentKey key = new AppointmentKey();
-        key.setDoctorId(doc1.getId());
-        key.setPatientSsn(inp1.getSsn());
+        staffDao.save(doc);
 
-        Appointment appointment = new Appointment();
-        appointment.setId(key);
-        appointment.setDoctor(doc1);
-        appointment.setPatient(inp1);
-        appointment.setAppointmentDate(new Timestamp(timeNow));
+//        userProfileDao.save(userProfile);
 
-        appointmentDao.save(appointment);
+        System.out.println(doc.toString());
     }
 }
