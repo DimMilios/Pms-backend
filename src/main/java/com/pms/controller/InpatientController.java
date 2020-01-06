@@ -1,8 +1,9 @@
 package com.pms.controller;
 
 import com.pms.dao.InpatientDao;
-import com.pms.model.Inpatient;
-import com.pms.model.Patient;
+import com.pms.model.patient.Inpatient;
+import com.pms.model.patient.Patient;
+import com.pms.service.InpatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,12 @@ import java.util.Optional;
 public class InpatientController {
 
     private InpatientDao inpatientDao;
+    private InpatientService inpatientService;
 
     @Autowired
-    public InpatientController(InpatientDao patientDao) {
+    public InpatientController(InpatientDao patientDao, InpatientService inpatientService) {
         this.inpatientDao = patientDao;
+        this.inpatientService = inpatientService;
     }
 
     @GetMapping

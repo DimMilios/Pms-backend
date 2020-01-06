@@ -4,6 +4,9 @@ import com.pms.dao.AppointmentDao;
 import com.pms.dao.PatientDao;
 import com.pms.dao.StaffDao;
 import com.pms.model.*;
+import com.pms.model.patient.Patient;
+import com.pms.model.staff.Doctor;
+import com.pms.model.staff.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.pms.controller;
 
-import com.pms.model.UserProfile;
+import com.pms.model.userprofile.UserProfile;
 import com.pms.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

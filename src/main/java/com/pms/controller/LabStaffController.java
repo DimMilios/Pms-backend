@@ -1,7 +1,7 @@
 package com.pms.controller;
 
 import com.pms.dao.LabStaffDao;
-import com.pms.model.LabStaff;
+import com.pms.model.staff.LabStaff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

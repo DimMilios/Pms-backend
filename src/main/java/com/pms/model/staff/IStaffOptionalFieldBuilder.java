@@ -1,4 +1,4 @@
-package com.pms.model;
+package com.pms.model.staff;
 
 public interface IStaffOptionalFieldBuilder {
 

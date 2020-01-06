@@ -1,6 +1,8 @@
-package com.pms.model;
+package com.pms.model.admin;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.pms.model.FullName;
+import com.pms.model.userprofile.UserProfile;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;

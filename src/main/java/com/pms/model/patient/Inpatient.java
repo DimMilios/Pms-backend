@@ -1,4 +1,4 @@
-package com.pms.model;
+package com.pms.model.patient;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -39,7 +39,8 @@ public class Inpatient extends Patient {
 
     @Override
     public String toString() {
-        return "Inpatient{" +
+        return super.toString() +
+                "Inpatient{" +
                 "admitDate=" + admitDate +
                 ", dischargeDate=" + dischargeDate +
                 ", currentDiagnosis='" + currentDiagnosis + '\'' +

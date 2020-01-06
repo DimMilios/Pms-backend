@@ -2,8 +2,8 @@ package com.pms.dao;
 
 import com.pms.model.Appointment;
 import com.pms.model.AppointmentKey;
-import com.pms.model.Doctor;
-import com.pms.model.Patient;
+import com.pms.model.staff.Doctor;
+import com.pms.model.patient.Patient;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

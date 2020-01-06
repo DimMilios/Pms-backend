@@ -1,7 +1,7 @@
 package com.pms.controller;
 
 import com.pms.dao.DoctorDao;
-import com.pms.model.Doctor;
+import com.pms.model.staff.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

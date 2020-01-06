@@ -1,6 +1,6 @@
 package com.pms.dao;
 
-import com.pms.model.UserProfile;
+import com.pms.model.userprofile.UserProfile;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

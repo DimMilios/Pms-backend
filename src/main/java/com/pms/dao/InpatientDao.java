@@ -1,6 +1,6 @@
 package com.pms.dao;
 
-import com.pms.model.Inpatient;
+import com.pms.model.patient.Inpatient;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,6 @@
-package com.pms.model;
+package com.pms.model.userprofile;
+
+import com.pms.model.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

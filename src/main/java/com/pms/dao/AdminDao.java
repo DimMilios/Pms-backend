@@ -1,6 +1,6 @@
 package com.pms.dao;
 
-import com.pms.model.Admin;
+import com.pms.model.admin.Admin;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

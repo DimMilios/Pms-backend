@@ -1,8 +1,8 @@
 package com.pms.service;
 
 import com.pms.dao.UserProfileDao;
-import com.pms.model.UserProfile;
-import com.pms.model.UserProfileBuilder;
+import com.pms.model.userprofile.UserProfile;
+import com.pms.model.userprofile.UserProfileBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,27 +28,13 @@ public class UserProfileService {
     }
 
     public Optional<UserProfile> createProfile(UserProfile userProfile) {
-        UserProfile profileToAdd = UserProfileBuilder
-                .userProfile()
-                .withUsername(userProfile.getUsername())
-                .withPassword(userProfile.getPassword())
-                .withEmail(userProfile.getEmail())
-                .withRole(userProfile.getRole().toString())
-                .withId(userProfile.getId())
-                .build();
+        UserProfile profileToAdd = getBuild(userProfile, userProfile.getId());
 
         return Optional.of(userProfileDao.save(profileToAdd));
     }
 
     public Optional<UserProfile> updateProfile(UserProfile userProfile, Long id) {
-        UserProfile profileToAdd = UserProfileBuilder
-                .userProfile()
-                .withUsername(userProfile.getUsername())
-                .withPassword(userProfile.getPassword())
-                .withEmail(userProfile.getEmail())
-                .withRole(userProfile.getRole().toString())
-                .withId(id)
-                .build();
+        UserProfile profileToAdd = getBuild(userProfile, id);
 
         return Optional.of(userProfileDao.save(profileToAdd));
     }
@@ -63,5 +49,14 @@ public class UserProfileService {
                         new RuntimeException("Could not find user profile with id: " + id));
     }
 
-
+    private UserProfile getBuild(UserProfile userProfile, Long id) {
+        return UserProfileBuilder
+                .userProfile()
+                .withUsername(userProfile.getUsername())
+                .withPassword(userProfile.getPassword())
+                .withEmail(userProfile.getEmail())
+                .withRole(userProfile.getRole().toString())
+                .withId(id)
+                .build();
+    }
 }

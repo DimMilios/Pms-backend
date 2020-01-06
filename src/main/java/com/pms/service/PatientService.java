@@ -1,17 +1,17 @@
 package com.pms.service;
 
 import com.pms.dao.PatientDao;
-import com.pms.model.Patient;
+import com.pms.model.patient.Patient;
+import com.pms.model.patient.PatientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Optional;
+
 
 @Service
-public class PatientService {
+public class PatientService implements GenericService<Patient> {
 
     private PatientDao patientDao;
 
@@ -20,13 +20,49 @@ public class PatientService {
         this.patientDao = patientDao;
     }
 
-    public List<Patient> getAllPatients() {
-        return StreamSupport.stream(
-                patientDao.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+
+    @Override
+    public Iterable<Patient> getAll() {
+        return patientDao.findAll();
     }
 
-    public void deleteBySsn(Long ssn) {
-        patientDao.deleteById(ssn);
+    @Override
+    public Optional<Patient> getById(Long id) {
+        return patientDao.findBySsn(id);
+    }
+
+    @Override
+    public Optional<Patient> create(Patient patient) {
+        Patient patientToAdd = getBuild(patient, patient.getSsn());
+
+        return Optional.of(patientDao.save(patientToAdd));
+    }
+
+    @Override
+    public Optional<Patient> update(Patient patient, Long id) {
+        Patient patientToAdd = getBuild(patient, id);
+
+        return Optional.of(patientDao.save(patientToAdd));
+    }
+
+    @Override
+    public void delete(Long id) throws EmptyResultDataAccessException {
+//        try {
+            patientDao.deleteById(id);
+//        } catch (EmptyResultDataAccessException ex) {
+//            throw new RuntimeException("Patient with this id does not exist");
+//        }
+    }
+
+    private Patient getBuild(Patient patient, Long id) {
+        return PatientBuilder
+                .patient()
+                .withSsn(id)
+                .withFullName(patient.getFullName())
+                .withOccupation(patient.getOccupation())
+                .withUserProfile(patient.getUserProfile())
+                .withSex(patient.getSex().toString())
+                .withAppointments(patient.getAppointments())
+                .build();
     }
 }

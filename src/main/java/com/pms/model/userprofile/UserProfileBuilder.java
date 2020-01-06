@@ -1,4 +1,6 @@
-package com.pms.model;
+package com.pms.model.userprofile;
+
+import com.pms.model.Role;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,22 +1,15 @@
 package com.pms.controller;
 
-import com.pms.controller.AppointmentService;
 import com.pms.controller.exceptions.MyResourceNotFoundException;
 import com.pms.dao.AppointmentDao;
 import com.pms.dao.PatientDao;
 import com.pms.dao.StaffDao;
 import com.pms.model.Appointment;
-import com.pms.model.Doctor;
-import com.pms.model.Patient;
-import com.pms.model.Staff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.sql.Timestamp;
 import java.util.Optional;
 
 @RestController

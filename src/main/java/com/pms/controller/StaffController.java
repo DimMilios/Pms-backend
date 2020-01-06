@@ -2,14 +2,13 @@ package com.pms.controller;
 
 import com.pms.dao.StaffDao;
 import com.pms.dao.UserProfileDao;
-import com.pms.model.Staff;
-import com.pms.model.UserProfile;
+import com.pms.model.staff.Staff;
+import com.pms.model.userprofile.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/staff")

@@ -1,5 +1,8 @@
 package com.pms.model;
 
+import com.pms.model.patient.Patient;
+import com.pms.model.staff.Doctor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 

@@ -1,6 +1,10 @@
-package com.pms.model;
+package com.pms.model.patient;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.pms.model.Appointment;
+import com.pms.model.FullName;
+import com.pms.model.Sex;
+import com.pms.model.userprofile.UserProfile;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -80,6 +84,14 @@ public class Patient {
         this.fullName = fullName;
     }
 
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
@@ -88,6 +100,7 @@ public class Patient {
                 ", occupation='" + occupation + '\'' +
                 ", sex=" + sex +
                 ", fullName=" + fullName +
+                ", appointsments=" + appointments +
                 '}';
     }
 }

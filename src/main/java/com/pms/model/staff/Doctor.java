@@ -1,4 +1,6 @@
-package com.pms.model;
+package com.pms.model.staff;
+
+import com.pms.model.Appointment;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;

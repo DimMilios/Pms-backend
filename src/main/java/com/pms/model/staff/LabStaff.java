@@ -1,4 +1,4 @@
-package com.pms.model;
+package com.pms.model.staff;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

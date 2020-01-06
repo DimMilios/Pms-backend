@@ -1,18 +1,14 @@
 package com.pms.middleware;
 
-import com.pms.dao.UserProfileDao;
-import com.pms.model.UserProfile;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pms.model.userprofile.UserProfile;
 
 public abstract class UserProfileMiddleware {
 
     private UserProfileMiddleware next;
+    private UserProfile userProfile;
 
-    protected UserProfileDao userProfileDao;
-
-    @Autowired
-    public UserProfileMiddleware(UserProfileDao userProfileDao) {
-        this.userProfileDao = userProfileDao;
+    public UserProfileMiddleware(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     /**
@@ -26,16 +22,16 @@ public abstract class UserProfileMiddleware {
     /**
      * Subclasses will implement this method with concrete checks.
      */
-    public abstract boolean check(UserProfile userProfile);
+    public abstract boolean isValid(UserProfile userProfile);
 
     /**
      * Runs check on the next object in chain or ends traversing if we're in
      * last object in chain.
      */
     protected boolean checkNext(UserProfile userProfile) {
-        if (next == null) {
-            return true;
+        if (next != null) {
+            return next.isValid(userProfile);
         }
-        return next.check(userProfile);
+        return false;
     }
 }

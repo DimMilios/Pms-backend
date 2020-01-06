@@ -2,10 +2,21 @@ package com.pms;
 
 import com.pms.dao.*;
 import com.pms.model.*;
+import com.pms.model.admin.Admin;
+import com.pms.model.admin.AdminBuilder;
+import com.pms.model.patient.Inpatient;
+import com.pms.model.patient.InpatientBuilder;
+import com.pms.model.patient.Patient;
+import com.pms.model.patient.PatientBuilder;
+import com.pms.model.staff.Staff;
+import com.pms.model.staff.StaffBuilder;
+import com.pms.model.userprofile.UserProfile;
+import com.pms.model.userprofile.UserProfileBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -269,17 +280,76 @@ public class Initializer implements CommandLineRunner {
                 new PhoneNumber("281007892")
         ));
 
-        Staff doc = StaffBuilder.staff()
-                .withAddress(addresses.get(0))
-                .withFullName(name)
-                .withUserProfile(userProfile)
-                .withPhoneNumbers(phoneNumbers)
+//        Staff doc = StaffBuilder.staff()
+//                .withAddress(addresses.get(0))
+//                .withFullName(name)
+//                .withUserProfile(userProfile)
+//                .withPhoneNumbers(phoneNumbers)
+//                .build();
+//
+//        staffDao.save(doc);
+//
+//
+//        System.out.println(doc.toString());
+
+        UserProfile userProfile1 = UserProfileBuilder.userProfile()
+                .withEmail("kostas@test.com")
+                .withUsername("kostas")
+                .withPassword("123")
+                .withRole("ADMIN")
                 .build();
 
-        staffDao.save(doc);
+        Admin admin = AdminBuilder.admin()
+                .withUserProfile(userProfile1)
+                .withFullName(name)
+                .build();
 
-//        userProfileDao.save(userProfile);
+        adminDao.save(admin);
 
-        System.out.println(doc.toString());
+        userProfileDao.save(userProfile);
+
+//        Patient patient = PatientBuilder
+//                .patient()
+//                .withSsn(435353L)
+//                .withFullName(name)
+//                .withOccupation("Teacher")
+//                .withUserProfile(userProfile)
+//                .withSex("MALE")
+//                .withAppointments(null)
+//                .build();
+        long timeNow = System.currentTimeMillis();
+
+        Inpatient patient1 = InpatientBuilder
+                .inpatient()
+                .withSsn(45545L)
+                .withUserProfile(userProfile)
+                .withAdmitDate(new Timestamp(timeNow))
+//                .withSsn(435353L)
+//                .withFullName(name)
+//                .withOccupation("Teacher")
+//                .withUserProfile(userProfile)
+//                .withSex("MALE")
+//                .withAppointments(null)
+                .build();
+
+
+        Patient patient = InpatientBuilder
+                .inpatient()
+                .withSsn(435353L)
+                .withAdmitDate(new Timestamp(timeNow))
+                .build();
+
+        patientDao.save(patient);
+        System.out.println(patient);
+
+        patientDao.save(patient1);
+        System.out.println(patient1);
+
+
+//        EmailValidator validator = EmailValidator.getValidator();
+//        System.out.println(validator.isValid(userProfile.getEmail()));
+
+
+
     }
 }
