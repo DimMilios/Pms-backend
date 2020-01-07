@@ -1,19 +1,26 @@
 package com.pms.model.userprofile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pms.model.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static java.util.Objects.isNull;
 
 @Entity
 @Table(name = "user_profiles")
-public class UserProfile implements Serializable {
+public class UserProfile implements Serializable { //, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,24 +38,20 @@ public class UserProfile implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    public UserProfile(@NotBlank String username, @NotBlank String password, @NotBlank String email, @NotBlank Role role) {
-//        this.username = username;
-//        this.password = password;
-//        this.email = email;
-//        this.role = role;
-//    }
+    @Transient
+    private Set<? extends GrantedAuthority> grantedAuthorities;
 
-    public UserProfile() {
-    }
+    @Transient
+    private boolean isAccountNonExpired;
 
-//    public UserProfile(long id, String username, String password, String email, Role role) {
-//        this.id = id;
-//        this.username = username;
-//        this.password = password;
-//        this.email = email;
-//        this.role = role;
-//    }
+    @Transient
+    private boolean isAccountNonLocked;
 
+    @Transient
+    private boolean isCredentialsNonExpired;
+
+    @Transient
+    private boolean isEnabled;
 
     public void setId(Long id) {
         this.id = id;
@@ -62,6 +65,35 @@ public class UserProfile implements Serializable {
         return username;
     }
 
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return isAccountNonExpired;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return isAccountNonLocked;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return isCredentialsNonExpired;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return isEnabled;
+//    }
+
+    public void setGrantedAuthorities(Set<? extends GrantedAuthority> grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
+    }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return grantedAuthorities;
+//    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -71,7 +103,8 @@ public class UserProfile implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        this.password = passwordEncoder.encode(password);
     }
 
     public String getEmail() {
