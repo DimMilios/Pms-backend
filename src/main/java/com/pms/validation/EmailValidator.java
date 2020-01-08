@@ -1,11 +1,11 @@
 package com.pms.validation;
 
-import com.pms.middleware.UserProfileMiddleware;
+import com.google.common.base.Strings;
 import com.pms.model.userprofile.UserProfile;
 
 import java.util.regex.Pattern;
 
-public class EmailValidator extends UserProfileMiddleware {
+public class EmailValidator extends BaseValidator {
 
     private static final String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:" +
             "[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")" +
@@ -23,27 +23,17 @@ public class EmailValidator extends UserProfileMiddleware {
 //        return INSTANCE;
 //    }
 
-    public EmailValidator(UserProfile userProfile) {
-        super(userProfile);
+    public EmailValidator() {
     }
 
-//    public boolean isValid(String email) {
-//        Pattern pat = Pattern.compile(regex);
-//        if (email == null)
-//            return false;
-//        return pat.matcher(email).matches();
-//    }
 
     @Override
     public boolean isValid(UserProfile userProfile) {
         Pattern pat = Pattern.compile(regex);
-        if (userProfile.getEmail() == null)
+        String email = userProfile.getEmail();
+        if (Strings.isNullOrEmpty(email) || !pat.matcher(email).matches()) {
             return false;
-        return pat.matcher(userProfile.getEmail()).matches();
-    }
-
-    @Override
-    public boolean checkNext(UserProfile userProfile) {
+        }
         return checkNext(userProfile);
     }
 }

@@ -1,6 +1,11 @@
 package com.pms.model.userprofile;
 
 import com.pms.model.Role;
+import com.pms.validation.EmailValidator;
+import com.pms.validation.UsernameValidator;
+import com.pms.validation.Validator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +16,10 @@ import static java.util.Objects.isNull;
 public class UserProfileBuilder implements IUserProfileBuilder, IUserProfileOptionalFieldBuilder {
 
     private List<Consumer<UserProfile>> operations;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private Validator validator;
 
     private static UserProfileBuilder INSTANCE;
 
@@ -24,6 +33,13 @@ public class UserProfileBuilder implements IUserProfileBuilder, IUserProfileOpti
 
     private UserProfileBuilder() {
         this.operations = new ArrayList<>();
+        this.passwordEncoder = new BCryptPasswordEncoder(10);
+        initValidationChain();
+    }
+
+    private void initValidationChain() {
+        this.validator = new EmailValidator();
+        this.validator.setNext(new UsernameValidator());
     }
 
     @Override
@@ -40,7 +56,7 @@ public class UserProfileBuilder implements IUserProfileBuilder, IUserProfileOpti
 
     @Override
     public IUserProfileBuilder withPassword(String password) {
-        operations.add(userProfile -> userProfile.setPassword(password));
+        operations.add(userProfile -> userProfile.setPassword(passwordEncoder.encode(password)));
         return this;
     }
 
@@ -52,7 +68,7 @@ public class UserProfileBuilder implements IUserProfileBuilder, IUserProfileOpti
 
     @Override
     public IUserProfileOptionalFieldBuilder withRole(String role) {
-        operations.add(userProfile -> userProfile.setRole(Role.toRole(role)));
+        operations.add(userProfile -> userProfile.setRole(Role.valueOf(role)));
         return this;
     }
 
@@ -64,11 +80,15 @@ public class UserProfileBuilder implements IUserProfileBuilder, IUserProfileOpti
         return userProfile;
     }
 
-    private void validate(UserProfile userProfile) {
-        validateRequiredField("username", userProfile.getUsername());
-        validateRequiredField("password", userProfile.getPassword());
-        validateRequiredField("email", userProfile.getEmail());
-        validateRequiredField("role", String.valueOf(userProfile.getRole()));
+    private void validate(UserProfile userProfile) throws RuntimeException {
+//        validateRequiredField("username", userProfile.getUsername());
+//        validateRequiredField("password", userProfile.getPassword());
+//        validateRequiredField("email", userProfile.getEmail());
+//
+        if (!validator.isValid(userProfile)) {
+            throw new RuntimeException("Invalid state, userProfile [" +
+                    userProfile + "] may not be null or empty.");
+        }
     }
 
     private void validateRequiredField(String fieldName, String value) {

@@ -1,4 +1,4 @@
-package com.pms.model;
+package com.pms.model.appointment;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -34,5 +34,13 @@ public class AppointmentKey implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(doctorId, patientSsn);
+    }
+
+    @Override
+    public String toString() {
+        return "AppointmentKey{" +
+                "doctorId=" + doctorId +
+                ", patientSsn=" + patientSsn +
+                '}';
     }
 }

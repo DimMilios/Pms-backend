@@ -8,6 +8,6 @@ public enum Role {
     }
 
     public static String fromRole(Role role) {
-        return String.valueOf(role.toString());
+        return role.toString();
     }
 }

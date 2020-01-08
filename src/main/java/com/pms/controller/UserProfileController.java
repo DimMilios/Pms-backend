@@ -3,9 +3,11 @@ package com.pms.controller;
 import com.pms.model.userprofile.UserProfile;
 import com.pms.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -22,7 +24,7 @@ public class UserProfileController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     public Iterable<UserProfile> getAll() {
         return userProfileService.getAll();
     }
@@ -35,8 +37,14 @@ public class UserProfileController {
 
     @PostMapping
     public UserProfile createProfile(@Valid @RequestBody UserProfile profileToCreate) {
-        return userProfileService.createProfile(profileToCreate)
-                .orElseThrow(() -> new RuntimeException("error creating profile"));
+        try {
+            return userProfileService.createProfile(profileToCreate)
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "error creating profile"));
+        } catch (RuntimeException ex) {
+          throw new ResponseStatusException(
+                  HttpStatus.BAD_REQUEST, "error creating profile");
+        }
     }
 
     @PutMapping(path = "{userProfileId}")

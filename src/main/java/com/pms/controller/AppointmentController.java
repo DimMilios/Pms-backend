@@ -4,13 +4,14 @@ import com.pms.controller.exceptions.MyResourceNotFoundException;
 import com.pms.dao.AppointmentDao;
 import com.pms.dao.PatientDao;
 import com.pms.dao.StaffDao;
-import com.pms.model.Appointment;
+import com.pms.model.appointment.Appointment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/appointments")

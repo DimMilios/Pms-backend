@@ -4,15 +4,23 @@
 //import com.pms.model.*;
 //import com.pms.model.admin.Admin;
 //import com.pms.model.admin.AdminBuilder;
+//import com.pms.model.appointment.Appointment;
+//import com.pms.model.appointment.AppointmentBuilder;
+//import com.pms.model.appointment.AppointmentKey;
 //import com.pms.model.patient.Inpatient;
 //import com.pms.model.patient.InpatientBuilder;
 //import com.pms.model.patient.Patient;
 //import com.pms.model.patient.PatientBuilder;
+//import com.pms.model.staff.Doctor;
 //import com.pms.model.staff.Staff;
 //import com.pms.model.staff.StaffBuilder;
 //import com.pms.model.userprofile.UserProfile;
 //import com.pms.model.userprofile.UserProfileBuilder;
 //import com.pms.security.UserRole;
+//import com.pms.validation.BaseValidator;
+//import com.pms.validation.EmailValidator;
+//import com.pms.validation.UsernameValidator;
+//import com.pms.validation.Validator;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.CommandLineRunner;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -153,98 +161,106 @@
 ////    }
 //
 //
-////    @Override
-////    public void run(String... args) throws Exception {
-////        List<Patient> patientList = Arrays.asList(
-////                new Patient(),
-////                new Inpatient(),
-////                new Patient(),
-////                new Inpatient()
-////        );
-////
-////        List<UserProfile> userProfiles = Arrays.asList(
-////                new UserProfile("george123", "123", "george123@test.com", Role.USER),
-////                new UserProfile("gge123", "123", "gge123@test.com", Role.USER),
-////                new UserProfile("maria123", "123", "maria123@test.com", Role.USER),
-////                new UserProfile("nikos123", "123", "nikos123@test.com", Role.USER)
-////        );
-////
-////        userProfiles.stream()
-////                .forEach(userProfile -> userProfileDao.save(userProfile));
-////
-////        FullName name = new FullName();
-////        name.setFirstName("George");
-////        name.setLastName("Papas");
-////        name.setFatherName("John");
-////
-////        patientList.get(0).setSsn((long) 435566622);
-////        patientList.get(1).setSsn((long) 987666622);
-////        patientList.get(2).setSsn((long) 067766622);
-////        patientList.get(3).setSsn((long) 123666622);
-////
-////        patientList.stream().forEach(patient -> patient.setFullName(name));
-////
-//////        patientList.get(0).setUserProfile(userProfiles.get(2));
-//////        patientList.get(1).setUserProfile(userProfiles.get(3));
-//////        patientList.get(2).setUserProfile(userProfiles.get(0));
-//////        patientList.get(3).setUserProfile(userProfiles.get(1));
-////
-////        patientList.get(0).setOccupation("Teacher");
-////        patientList.get(1).setOccupation("Driver");
-////        patientList.get(2).setOccupation("Accountant");
-////        patientList.get(3).setOccupation("Police Officer");
-////
-////        patientList.get(0).setSex(Sex.MALE);
-////        patientList.get(1).setSex(Sex.FEMALE);
-////        patientList.get(2).setSex(Sex.FEMALE);
-////        patientList.get(3).setSex(Sex.MALE);
-////
-////        Inpatient inp1 = new Inpatient();
-////        Inpatient inp2 = new Inpatient();
-////
-////        long timeNow = System.currentTimeMillis();
-////
-////        inp1.setAdmitDate(new Timestamp(timeNow));
-////        inp2.setAdmitDate(new Timestamp(timeNow));
-////
-////        inp1.setSsn((long) 567760098);
-////        inp2.setSsn((long) 123669988);
-////
-//////        patientDao.save(inp1);
-//////        patientDao.save(inp2);
-////
-////        List<Address> addresses = Arrays.asList(
-////            new Address(),
-////            new Address()
-////        );
-////
-////        addresses.get(0).setCity("Aquila d'Arroscia");
-////        addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
-////        addresses.get(0).setZipCode(934356);
-////
-////        addresses.get(1).setCity("Port Hope");
-////        addresses.get(1).setStreetAddress("1025 Pharetra Av.");
-////        addresses.get(1).setZipCode(352061);
-////
-////        patientList.stream()
-////                .forEach(patient -> patientDao.save(patient));
-////
-////        Doctor doc1 = new Doctor();
-////        doc1.setAddress(addresses.get(0));
-////        staffDao.save(doc1);
-////
-//////        AppointmentKey key = new AppointmentKey();
-//////        key.setDoctorId(doc1.getId());
-//////        key.setPatientSsn(inp1.getSsn());
-//////
-//////        Appointment appointment = new Appointment();
-//////        appointment.setId(key);
-//////        appointment.setDoctor(doc1);
-//////        appointment.setPatient(inp1);
-//////        appointment.setAppointmentDate(new Timestamp(timeNow));
-//////
-//////        appointmentDao.save(appointment);
-////    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        List<Patient> patientList = Arrays.asList(
+//                new Patient(),
+//                new Inpatient(),
+//                new Patient(),
+//                new Inpatient()
+//        );
+//
+//        List<UserProfile> userProfiles = Arrays.asList(
+//                UserProfileBuilder.userProfile().withUsername("george123").withPassword("123").withEmail("george123@test.com").withRole("USER").build(),
+//                UserProfileBuilder.userProfile().withUsername("gge123").withPassword("123").withEmail("gge123@test.com").withRole("USER").build(),
+//                UserProfileBuilder.userProfile().withUsername("maria123").withPassword("123").withEmail("maria123@test.com").withRole("USER").build(),
+//                UserProfileBuilder.userProfile().withUsername("nikos123").withPassword("123").withEmail("nikos123@test.com").withRole("USER").build()
+//        );
+//
+//        userProfiles.forEach(userProfile -> userProfileDao.save(userProfile));
+//
+//        FullName name = new FullName();
+//        name.setFirstName("George");
+//        name.setLastName("Papas");
+//        name.setFatherName("John");
+//
+//        patientList.get(0).setSsn((long) 435566622);
+//        patientList.get(1).setSsn((long) 987666622);
+//        patientList.get(2).setSsn((long) 14675346);
+//        patientList.get(3).setSsn((long) 123666622);
+//
+//        patientList.forEach(patient -> patient.setFullName(name));
+//
+////        patientList.get(0).setUserProfile(userProfiles.get(2));
+////        patientList.get(1).setUserProfile(userProfiles.get(3));
+////        patientList.get(2).setUserProfile(userProfiles.get(0));
+////        patientList.get(3).setUserProfile(userProfiles.get(1));
+//
+//        patientList.get(0).setOccupation("Teacher");
+//        patientList.get(1).setOccupation("Driver");
+//        patientList.get(2).setOccupation("Accountant");
+//        patientList.get(3).setOccupation("Police Officer");
+//
+//        patientList.get(0).setSex(Sex.MALE);
+//        patientList.get(1).setSex(Sex.FEMALE);
+//        patientList.get(2).setSex(Sex.FEMALE);
+//        patientList.get(3).setSex(Sex.MALE);
+//
+//        Inpatient inp1 = new Inpatient();
+//        Inpatient inp2 = new Inpatient();
+//
+//        long timeNow = System.currentTimeMillis();
+//
+//        inp1.setAdmitDate(new Timestamp(timeNow));
+//        inp2.setAdmitDate(new Timestamp(timeNow));
+//
+//        inp1.setSsn((long) 567760098);
+//        inp2.setSsn((long) 123669988);
+//
+//        patientDao.save(inp1);
+//        patientDao.save(inp2);
+//
+//        List<Address> addresses = Arrays.asList(
+//            new Address(),
+//            new Address()
+//        );
+//
+//        addresses.get(0).setCity("Aquila d'Arroscia");
+//        addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
+//        addresses.get(0).setZipCode(934356);
+//
+//        addresses.get(1).setCity("Port Hope");
+//        addresses.get(1).setStreetAddress("1025 Pharetra Av.");
+//        addresses.get(1).setZipCode(352061);
+//
+//        patientList.forEach(patient -> patientDao.save(patient));
+//
+//        Doctor doc1 = new Doctor();
+//        doc1.setAddress(addresses.get(0));
+//        staffDao.save(doc1);
+//
+//        AppointmentKey key = new AppointmentKey();
+//        key.setDoctorId(doc1.getId());
+//        key.setPatientSsn(patientList.get(0).getSsn());
+//
+//        System.out.println(key.toString());
+//
+//        Appointment appointment = new Appointment();
+//        appointment.setId(key);
+//        appointment.setDoctor(doc1);
+//        appointment.setPatient(inp1);
+//        appointment.setAppointmentDate(new Timestamp(timeNow));
+//
+////        Appointment appointment1 = AppointmentBuilder
+////                .appointment()
+////                .withId(key)
+////                .withDoctor(doc1)
+////                .withPatient(patientList.get(0))
+////                .withAppointmentDate(new Timestamp(timeNow))
+////                .build();
+//
+//        appointmentDao.save(appointment);
+//    }
 //
 //
 ////    @Override
@@ -356,16 +372,40 @@
 ////    }
 //
 //
-//    @Override
-//    public void run(String... args) throws Exception {
-//        UserProfile userProfile = new UserProfile();
+////    @Override
+////    public void run(String... args) throws Exception {
+////
+////        try {
+////            UserProfile userProfile = UserProfileBuilder
+////                    .userProfile()
+////                    .withUsername("test123")
+////                    .withPassword("123")
+////                    .withEmail("test@tset.com")
+////                    .withRole("ADMIN")
+////                    .build();
+////
+////            userProfileDao.save(userProfile);
+////            System.out.println(userProfile);
+////
+////        } catch (RuntimeException ex) {
+////            ex.printStackTrace();
+////        }
 //
-//        userProfile.setUsername("kostas");
-//        userProfile.setPassword("123");
-//        Set<SimpleGrantedAuthority> grantedAuthorities =
-//                UserRole.ADMIN.getGrantedAuthorities();
-//        userProfile.setGrantedAuthorities(grantedAuthorities);
+////        Validator usernameValidator = new UsernameValidator();
+////        usernameValidator.setNext(new EmailValidator());
 //
-//        System.out.println(userProfile.getAuthorities());
-//    }
+////        Validator validator = new EmailValidator();
+////        validator.setNext(new UsernameValidator());
+//////
+////        System.out.println("Username is valid");
+////        System.out.println(validator.isValid(userProfile));
+//
+////        userProfile.setUsername("kostas");
+////        userProfile.setPassword("123");
+////        userProfile.setEmail("test@test.com");
+////        Set<SimpleGrantedAuthority> grantedAuthorities =
+////                UserRole.ADMIN.getGrantedAuthorities();
+////        userProfile.setGrantedAuthorities(grantedAuthorities);
+//
+////    }
 //}

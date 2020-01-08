@@ -1,4 +1,4 @@
-package com.pms.model;
+package com.pms.model.appointment;
 
 import com.pms.model.patient.Patient;
 import com.pms.model.staff.Doctor;

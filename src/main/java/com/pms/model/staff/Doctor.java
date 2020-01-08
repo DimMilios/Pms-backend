@@ -1,6 +1,6 @@
 package com.pms.model.staff;
 
-import com.pms.model.Appointment;
+import com.pms.model.appointment.Appointment;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "doctors")
-@PrimaryKeyJoinColumn(name = "id")
+//@PrimaryKeyJoinColumn(name = "id")
 public class Doctor extends Staff {
 
     @OneToMany(mappedBy = "doctor")

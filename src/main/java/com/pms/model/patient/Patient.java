@@ -1,7 +1,7 @@
 package com.pms.model.patient;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.pms.model.Appointment;
+import com.pms.model.appointment.Appointment;
 import com.pms.model.FullName;
 import com.pms.model.Sex;
 import com.pms.model.userprofile.UserProfile;
