@@ -16,7 +16,6 @@ public class UserProfile implements Serializable {
     @Column(unique = true)
     private String username;
 
-    @JsonIgnore
     private String password;
 
     @Column(unique = true)
@@ -36,7 +35,6 @@ public class UserProfile implements Serializable {
     public String getUsername() {
         return username;
     }
-
 
     public void setUsername(String username) {
         this.username = username;

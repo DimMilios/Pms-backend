@@ -53,11 +53,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests()
 //                .antMatchers("/").permitAll()
 //                .antMatchers("/h2_console/**").permitAll();
-//
+
 //        http.csrf().disable();
 //        http.headers().frameOptions().disable();
 
         http
+                .authorizeRequests()
+                .antMatchers("/h2_console/**").permitAll()
+                .and()
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
@@ -70,7 +73,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/h2_console/**").permitAll()
                 .antMatchers("/api/**").permitAll() //.hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated();

@@ -19,7 +19,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import javax.print.Doc;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -126,36 +128,113 @@ public class AppointInit implements CommandLineRunner {
 //        System.out.println(appointment);
 //    }
 
+    List<UserProfile> getUserProfiles() {
+        return Arrays.asList(
+                UserProfileBuilder.userProfile().withUsername("george123").withPassword("123").withEmail("george123@test.com").withRole("ADMIN").build(),
+                UserProfileBuilder.userProfile().withUsername("gge123").withPassword("123").withEmail("gge123@test.com").withRole("USER").build(),
+                UserProfileBuilder.userProfile().withUsername("maria123").withPassword("123").withEmail("maria123@test.com").withRole("STAFF").build(),
+                UserProfileBuilder.userProfile().withUsername("nikos123").withPassword("123").withEmail("nikos123@test.com").withRole("USER").build()
+        );
+    }
+
+    List<Patient> getPatients(List<UserProfile> profiles) {
+        Patient p1 = PatientBuilder
+                .patient()
+                .withSsn(43242L)
+                .withUserProfile(profiles.get(3))
+                .withSex("MALE")
+                .withOccupation("Teacher")
+                .build();
+
+        Patient p2 = PatientBuilder
+                .patient()
+                .withSsn(94342L)
+                .withUserProfile(profiles.get(1))
+                .withSex("MALE")
+                .withOccupation("Lawyer")
+                .build();
+
+        patientDao.save(p1);
+        patientDao.save(p2);
+
+        return Arrays.asList(p1, p2);
+    }
+
+    List<Address> getAddresses() {
+        List<Address> addresses = Arrays.asList(
+                new Address(),
+                new Address()
+        );
+
+        addresses.get(0).setCity("Aquila d'Arroscia");
+        addresses.get(0).setStreetAddress("234-1556 Auctor Av.");
+        addresses.get(0).setZipCode(934356);
+
+        addresses.get(1).setCity("Port Hope");
+        addresses.get(1).setStreetAddress("1025 Pharetra Av.");
+        addresses.get(1).setZipCode(352061);
+
+        return addresses;
+    }
+
+    List<Doctor> getDoctors(List<Address> addresses, List<UserProfile> profiles) {
+        Doctor d1 = new Doctor();
+        d1.setAddress(addresses.get(0));
+        d1.setUserProfile(profiles.get(2));
+
+        Doctor d2 = new Doctor();
+        d2.setAddress(addresses.get(1));
+        d2.setUserProfile(profiles.get(0));
+
+        staffDao.save(d1);
+        staffDao.save(d2);
+
+        return Arrays.asList(d1, d2);
+    }
 
     @Override
     public void run(String... args) throws Exception {
-        UserProfile userProfile = UserProfileBuilder
-            .userProfile()
-            .withUsername("test")
-                .withPassword("123")
-                .withEmail("test@test.com")
-                .withRole("ADMIN")
-                .build();
+        List<UserProfile> profiles = getUserProfiles();
+        List<Patient> patients = getPatients(profiles);
+        List<Address> addresses = getAddresses();
+        List<Doctor> doctors = getDoctors(addresses, profiles);
+
+        profiles.forEach(System.out::println);
+        patients.forEach(System.out::println);
+        addresses.forEach(System.out::println);
+        doctors.forEach(System.out::println);
+    }
+
+
+//    @Override
+//    public void run(String... args) throws Exception {
+//        UserProfile userProfile = UserProfileBuilder
+//                .userProfile()
+//                .withUsername("test")
+//                .withPassword("123")
+//                .withEmail("test@test.com")
+//                .withRole("ADMIN")
+//                .build();
 
 //        userProfileDao.save(userProfile);
 
-        Address address = new Address();
-        address.setCity("Aquila d'Arroscia");
-        address.setStreetAddress("234-1556 Auctor Av.");
-        address.setZipCode(934356);
-
-        Patient patient = PatientBuilder
-                .patient()
-                .withSsn(3534534L)
-                .withSex("MALE")
-                .build();
+//        Address address = new Address();
+//        address.setCity("Aquila d'Arroscia");
+//        address.setStreetAddress("234-1556 Auctor Av.");
+//        address.setZipCode(934356);
+//
+//        Patient patient = PatientBuilder
+//                .patient()
+//                .withSsn(3534534L)
+//                .withSex("MALE")
+//                .build();
 
 //        patientDao.save(patient);
-
-        Doctor doctor = new Doctor();
-        doctor.setUserProfile(userProfile);
-        doctor.setAddress(address);
-
+//
+//        Doctor doctor = new Doctor();
+//        doctor.setUserProfile(userProfile);
+//        doctor.setAddress(address);
+//
 //        staffDao.save(doctor);
 //
 //        AppointmentKey key = new AppointmentKey();
@@ -170,5 +249,5 @@ public class AppointInit implements CommandLineRunner {
 //
 //        appointmentDao.save(appointment);
 
-    }
+//    }
 }

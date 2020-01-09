@@ -17,11 +17,11 @@ public class UserProfileBuilder implements IUserProfileBuilder, IUserProfileOpti
 
     private List<Consumer<UserProfile>> operations;
 
-    private final PasswordEncoder passwordEncoder;
-
     private Validator validator;
 
     private static UserProfileBuilder INSTANCE;
+
+    private PasswordEncoder passwordEncoder;
 
     public static UserProfileBuilder userProfile() {
         if (INSTANCE == null) {

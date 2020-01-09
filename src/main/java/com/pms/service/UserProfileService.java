@@ -1,10 +1,13 @@
 package com.pms.service;
 
 import com.pms.dao.UserProfileDao;
+import com.pms.model.Role;
 import com.pms.model.userprofile.UserProfile;
 import com.pms.model.userprofile.UserProfileBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,9 +17,12 @@ public class UserProfileService {
 
     private UserProfileDao userProfileDao;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public UserProfileService(UserProfileDao userProfileDao) {
         this.userProfileDao = userProfileDao;
+        this.passwordEncoder = new BCryptPasswordEncoder(10);
     }
 
     public Iterable<UserProfile> getAll() {
@@ -28,7 +34,14 @@ public class UserProfileService {
     }
 
     public Optional<UserProfile> createProfile(UserProfile userProfile) {
-        UserProfile profileToAdd = getBuild(userProfile, userProfile.getId());
+        UserProfile profileToAdd = UserProfileBuilder
+                .userProfile()
+                .withUsername(userProfile.getUsername())
+//                .withPassword(passwordEncoder.encode(userProfile.getPassword()))
+                .withPassword(userProfile.getPassword())
+                .withEmail(userProfile.getEmail())
+                .withRole(userProfile.getRole().toString())
+                .build();
 
         return Optional.of(userProfileDao.save(profileToAdd));
     }

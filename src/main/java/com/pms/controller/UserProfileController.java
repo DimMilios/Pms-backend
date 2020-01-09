@@ -1,5 +1,7 @@
 package com.pms.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pms.model.userprofile.UserProfile;
 import com.pms.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;

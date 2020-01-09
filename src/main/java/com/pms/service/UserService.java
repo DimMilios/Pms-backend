@@ -1,8 +1,10 @@
 package com.pms.service;
 
 import com.pms.dao.UserProfileDao;
+import com.pms.model.Role;
 import com.pms.model.userprofile.UserProfile;
 import com.pms.security.ApplicationUser;
+import com.pms.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,12 +27,38 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            UserProfile userProfile = userProfileDao.findByUsername(username).get();
+        return userProfileDao.findByUsername(username)
+                .map(this::getUserDetails)
+                .orElseThrow(() ->new
+                    UsernameNotFoundException(String.format("Username %s not found", username)));
+}
 
-            return new ApplicationUser(userProfile, ADMIN.getGrantedAuthorities(), true, true, true, true);
-        } catch (UsernameNotFoundException ex) {
-            throw new UsernameNotFoundException(String.format("Username %s not found", username));
+    private UserDetails getUserDetails(UserProfile userProfile) {
+        if (userProfile.getRole() == Role.ADMIN) {
+            return new ApplicationUser(
+                    userProfile,
+                    UserRole.ADMIN.getGrantedAuthorities(),
+                    true,
+                    true,
+                    true,
+                    true);
+        } else if (userProfile.getRole() == Role.STAFF) {
+            return new ApplicationUser(
+                    userProfile,
+                    UserRole.STAFF.getGrantedAuthorities(),
+                    true,
+                    true,
+                    true,
+                    true);
+        } else if (userProfile.getRole() == Role.USER) {
+            return new ApplicationUser(
+                    userProfile,
+                    UserRole.USER.getGrantedAuthorities(),
+                    true,
+                    true,
+                    true,
+                    true);
         }
+        return null;
     }
 }
