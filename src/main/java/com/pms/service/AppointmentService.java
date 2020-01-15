@@ -21,9 +21,9 @@
 //        return appointmentDao.findAll();
 //    }
 //
-//    public Optional<Appointment> getById(Long id) {
-//        return appointmentDao.findById(id);
-//    }
+////    public Optional<Appointment> getById(Long id) {
+////        return appointmentDao.findById(id);
+////    }
 //
 //    public Optional<Appointment> create(Appointment body) {
 //        return Optional.empty();

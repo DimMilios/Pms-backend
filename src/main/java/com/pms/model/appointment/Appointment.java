@@ -1,5 +1,6 @@
 package com.pms.model.appointment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pms.model.patient.Patient;
 import com.pms.model.staff.Doctor;
 
@@ -15,6 +16,7 @@ public class Appointment {
     @ManyToOne
     @MapsId("doctor_id")
     @JoinColumn(name = "doctor_id")
+    @JsonIgnore
     private Doctor doctor;
 
     @ManyToOne
@@ -50,5 +52,15 @@ public class Appointment {
 
     public void setAppointmentDate(Timestamp appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", doctor=" + doctor +
+                ", patient=" + patient +
+                ", appointmentDate=" + appointmentDate +
+                '}';
     }
 }

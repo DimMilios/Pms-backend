@@ -38,6 +38,10 @@ public class AdminService {
         return Optional.of(adminDao.save(adminToAdd));
     }
 
+    public void delete(Long id) {
+        adminDao.deleteById(id);
+    }
+
     private Admin getBuild(Admin admin, Long id) {
         return AdminBuilder
                 .admin()

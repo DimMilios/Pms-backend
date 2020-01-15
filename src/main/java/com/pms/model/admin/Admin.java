@@ -16,7 +16,7 @@ public class Admin {
     private Long id;
 
     @Nullable
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumns(
             {
                     @JoinColumn(name = "user_profile_id", referencedColumnName = "id"),

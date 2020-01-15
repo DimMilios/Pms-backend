@@ -67,6 +67,12 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(secretKey)
                 .compact();
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(
+                "{\"" + "token" + "\":\"" + jwtConfig.getTokenPrefix() + token + "\"}"
+        );
+
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
     }
 }

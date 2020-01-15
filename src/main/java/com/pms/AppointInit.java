@@ -4,6 +4,8 @@ import com.pms.dao.*;
 import com.pms.model.Address;
 import com.pms.model.FullName;
 import com.pms.model.Sex;
+import com.pms.model.admin.Admin;
+import com.pms.model.admin.AdminBuilder;
 import com.pms.model.appointment.Appointment;
 import com.pms.model.appointment.AppointmentBuilder;
 import com.pms.model.appointment.AppointmentKey;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.print.Doc;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,62 +195,85 @@ public class AppointInit implements CommandLineRunner {
         return Arrays.asList(d1, d2);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        List<UserProfile> profiles = getUserProfiles();
-        List<Patient> patients = getPatients(profiles);
-        List<Address> addresses = getAddresses();
-        List<Doctor> doctors = getDoctors(addresses, profiles);
-
-        profiles.forEach(System.out::println);
-        patients.forEach(System.out::println);
-        addresses.forEach(System.out::println);
-        doctors.forEach(System.out::println);
-    }
-
-
 //    @Override
 //    public void run(String... args) throws Exception {
-//        UserProfile userProfile = UserProfileBuilder
+////        List<UserProfile> profiles = getUserProfiles();
+////        List<Patient> patients = getPatients(profiles);
+////        List<Address> addresses = getAddresses();
+////        List<Doctor> doctors = getDoctors(addresses, profiles);
+////
+////        profiles.forEach(System.out::println);
+////        patients.forEach(System.out::println);
+////        addresses.forEach(System.out::println);
+////        doctors.forEach(System.out::println);
+//
+//        UserProfile profile = UserProfileBuilder
 //                .userProfile()
-//                .withUsername("test")
+//                .withUsername("george123")
 //                .withPassword("123")
-//                .withEmail("test@test.com")
-//                .withRole("ADMIN")
+//                .withEmail("george123@test.com").
+//                        withRole("ADMIN")
 //                .build();
+//        userProfileDao.save(profile);
+//
+//        Admin admin = AdminBuilder
+//                .admin()
+//                .withUserProfile(
+//                        profile
+//                ).withFullName(null)
+//                .build();
+//
+//        adminDao.save(admin);
+//        System.out.println(admin);
+//    }
+
+
+    @Override
+    public void run(String... args) throws Exception {
+        UserProfile userProfile = UserProfileBuilder
+                .userProfile()
+                .withUsername("test")
+                .withPassword("123")
+                .withEmail("test@test.com")
+                .withRole("ADMIN")
+                .build();
 
 //        userProfileDao.save(userProfile);
 
-//        Address address = new Address();
-//        address.setCity("Aquila d'Arroscia");
-//        address.setStreetAddress("234-1556 Auctor Av.");
-//        address.setZipCode(934356);
-//
-//        Patient patient = PatientBuilder
-//                .patient()
-//                .withSsn(3534534L)
-//                .withSex("MALE")
-//                .build();
+        Address address = new Address();
+        address.setCity("Aquila d'Arroscia");
+        address.setStreetAddress("234-1556 Auctor Av.");
+        address.setZipCode(934356);
 
-//        patientDao.save(patient);
-//
-//        Doctor doctor = new Doctor();
-//        doctor.setUserProfile(userProfile);
-//        doctor.setAddress(address);
-//
-//        staffDao.save(doctor);
-//
-//        AppointmentKey key = new AppointmentKey();
-//        key.setDoctorId(doctor.getId());
-//        key.setPatientSsn(patient.getSsn());
-//
-//        Appointment appointment = new Appointment();
-//        appointment.setId(key);
-//        appointment.setDoctor(doctor);
-//        appointment.setPatient(patient);
-//        appointment.setAppointmentDate(null);
-//
-//        appointmentDao.save(appointment);
+        Patient patient = PatientBuilder
+                .patient()
+                .withSsn(3534534L)
+                .withSex("MALE")
+                .build();
 
-//    }
+        patientDao.save(patient);
+
+        Doctor doctor = new Doctor();
+        doctor.setUserProfile(userProfile);
+        doctor.setAddress(address);
+
+        staffDao.save(doctor);
+
+        AppointmentKey key = new AppointmentKey();
+        key.setDoctorId(doctor.getId());
+        key.setPatientSsn(patient.getSsn());
+
+        long timeNow = System.currentTimeMillis();
+
+
+        Appointment appointment = new Appointment();
+        appointment.setId(key);
+        appointment.setDoctor(doctor);
+        appointment.setPatient(patient);
+        appointment.setAppointmentDate(new Timestamp(timeNow));
+
+        appointmentDao.save(appointment);
+        System.out.println(appointment);
+
+    }
 }

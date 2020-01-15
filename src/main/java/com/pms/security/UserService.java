@@ -1,19 +1,13 @@
-package com.pms.service;
+package com.pms.security;
 
 import com.pms.dao.UserProfileDao;
 import com.pms.model.Role;
 import com.pms.model.userprofile.UserProfile;
-import com.pms.security.ApplicationUser;
-import com.pms.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.Optional;
-
-import static com.pms.security.UserRole.ADMIN;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -29,7 +23,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userProfileDao.findByUsername(username)
                 .map(this::getUserDetails)
-                .orElseThrow(() ->new
+                .orElseThrow(() -> new
                     UsernameNotFoundException(String.format("Username %s not found", username)));
 }
 

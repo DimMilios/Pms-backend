@@ -13,5 +13,5 @@ import java.util.Set;
 @Repository
 public interface AppointmentDao extends CrudRepository<Appointment, AppointmentKey> {
 
-    Optional<Appointment> findByDoctorAndPatient(Doctor doctorId, Patient patient);
+    Optional<Appointment> findByDoctorAndPatient(Doctor doctor, Patient patient);
 }

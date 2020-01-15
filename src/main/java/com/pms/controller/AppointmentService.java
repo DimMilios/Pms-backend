@@ -63,7 +63,6 @@ public class AppointmentService {
 
         long timeNow = System.currentTimeMillis();
 
-
         appointment.setId(key);
         appointment.setPatient(patient.get());
         appointment.setDoctor((Doctor) doctor.get());
