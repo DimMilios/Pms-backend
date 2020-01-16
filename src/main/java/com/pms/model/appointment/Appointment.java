@@ -16,12 +16,13 @@ public class Appointment {
     @ManyToOne
     @MapsId("doctor_id")
     @JoinColumn(name = "doctor_id")
-    @JsonIgnore
+//    @JsonIgnore
     private Doctor doctor;
 
     @ManyToOne
     @MapsId("ssn")
     @JoinColumn(name = "ssn")
+//    @JsonIgnore
     private Patient patient;
 
     private Timestamp appointmentDate;

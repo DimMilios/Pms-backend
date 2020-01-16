@@ -25,8 +25,9 @@ public class AppointmentBuilder implements IAppointmentBuilder {
 
     @Override
     public IAppointmentBuilder withId(AppointmentKey key) {
-        operations.add(appointment -> appointment.setId(key));
-        return this;
+//        operations.add(appointment -> appointment.setId(key));
+//        return this;
+        return null;
     }
 
     @Override

@@ -26,7 +26,7 @@ public class UserProfileController {
     }
 
     @GetMapping
-//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public Iterable<UserProfile> getAll() {
         return userProfileService.getAll();
     }

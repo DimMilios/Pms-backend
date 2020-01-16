@@ -13,6 +13,7 @@ import com.pms.model.patient.Inpatient;
 import com.pms.model.patient.Patient;
 import com.pms.model.patient.PatientBuilder;
 import com.pms.model.staff.Doctor;
+import com.pms.model.staff.Staff;
 import com.pms.model.staff.StaffBuilder;
 import com.pms.model.userprofile.UserProfile;
 import com.pms.model.userprofile.UserProfileBuilder;
@@ -230,15 +231,10 @@ public class AppointInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserProfile userProfile = UserProfileBuilder
-                .userProfile()
-                .withUsername("test")
-                .withPassword("123")
-                .withEmail("test@test.com")
-                .withRole("ADMIN")
-                .build();
-
-//        userProfileDao.save(userProfile);
+        List<UserProfile> profiles = getUserProfiles();
+//        List<Patient> patients = getPatients(profiles);
+        List<Address> addresses = getAddresses();
+//        List<Doctor> doctors = getDoctors(addresses, profiles);
 
         Address address = new Address();
         address.setCity("Aquila d'Arroscia");
@@ -254,8 +250,8 @@ public class AppointInit implements CommandLineRunner {
         patientDao.save(patient);
 
         Doctor doctor = new Doctor();
-        doctor.setUserProfile(userProfile);
         doctor.setAddress(address);
+        doctor.setUserProfile(profiles.get(0));
 
         staffDao.save(doctor);
 

@@ -1,5 +1,6 @@
 package com.pms.model.patient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.pms.model.appointment.Appointment;
 import com.pms.model.FullName;
@@ -40,6 +41,7 @@ public class Patient {
     private FullName fullName;
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnore
     Set<Appointment> appointments;
 
     public Long getSsn() {
