@@ -46,6 +46,7 @@ public class StaffBuilder implements IStaffBuilder, IStaffOptionalFieldBuilder {
         return this;
     }
 
+
     @Override
     public IStaffOptionalFieldBuilder withPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
         operations.add(staff -> staff.setPhoneNumbers(phoneNumbers));

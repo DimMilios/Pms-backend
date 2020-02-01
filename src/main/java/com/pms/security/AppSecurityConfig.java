@@ -41,20 +41,17 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//        http.authorizeRequests()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/h2_console/**").permitAll();
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2_console/**").permitAll();
 
 //        http.csrf().disable();
-//        http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable();
 
         http
                 .authorizeRequests()
-                .antMatchers("/h2_console/**").permitAll()
                 .and()
                 .csrf().disable()
-                .headers().frameOptions().disable()
-                .and()
                 .cors()
                 .and()
                 .sessionManagement()
@@ -82,34 +79,4 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userService);
         return provider;
     }
-
-
-//    @Override
-//    @Bean
-//    protected UserDetailsService userDetailsService() {
-//        UserDetails admin = User.builder()
-//                .username("kostas")
-//                .password(passwordEncoder.encode("123"))
-//                .authorities(ADMIN.getGrantedAuthorities())
-//                .build();
-//
-////
-////        UserDetails user = User.builder()
-////                .username("manos")
-////                .password(passwordEncoder.encode("123"))
-////                .authorities(UserRole.STAFF.getGrantedAuthorities())
-////                .build();
-//
-//        UserProfile userProfile = new UserProfile();
-//        userProfile.setUsername("kostas");
-//        userProfile.setPassword("123");
-//        ApplicationUser user = new ApplicationUser(userProfile, ADMIN.getGrantedAuthorities(), true, true, true, true);
-//
-////        userProfile.setGrantedAuthorities(ADMIN.getGrantedAuthorities());
-//
-//        return new InMemoryUserDetailsManager(
-//                admin,
-//                user
-//        );
-//    }
 }

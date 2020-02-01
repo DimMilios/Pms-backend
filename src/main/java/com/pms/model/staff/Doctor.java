@@ -2,17 +2,16 @@ package com.pms.model.staff;
 
 import com.pms.model.appointment.Appointment;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "doctors")
+@DiscriminatorValue("Doctor")
 //@PrimaryKeyJoinColumn(name = "id")
 public class Doctor extends Staff {
 
     @OneToMany(mappedBy = "doctor")
     Set<Appointment> appointments;
+
 }

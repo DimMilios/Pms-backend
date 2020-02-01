@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "staff")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "staff_type", discriminatorType = DiscriminatorType.STRING)
 public class Staff {
 
     @Id
@@ -21,12 +22,7 @@ public class Staff {
     protected Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumns(
-            {
-                    @JoinColumn(name = "user_profile_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "user_profile_role", referencedColumnName = "role")
-            }
-    )
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
     private UserProfile userProfile;
 
     @Nullable
@@ -47,16 +43,6 @@ public class Staff {
     @Column(name = "phone_no")
     private Set<PhoneNumber> phoneNumbers;
 
-    public Staff() {
-
-    }
-
-    public Staff(UserProfile userProfile, Set<PhoneNumber> phoneNumbers, Address address) {
-        this.userProfile = userProfile;
-        this.phoneNumbers = phoneNumbers;
-        this.address = address;
-    }
-
     public Long getId() {
         return id;
     }
@@ -64,7 +50,6 @@ public class Staff {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public UserProfile getUserProfile() {
         return userProfile;
@@ -95,6 +80,13 @@ public class Staff {
         return fullName;
     }
 
+    @Transient
+    public String getStaffType(){
+        DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
+
+        return val == null ? null : val.value();
+    }
+
     public void setFullName(FullName fullName) {
         this.fullName = fullName;
     }
@@ -107,6 +99,9 @@ public class Staff {
                 ", phoneNumbers=" + phoneNumbers +
                 ", fullName=" + fullName +
                 ", address=" + address +
+                ", staffType=" + getStaffType() +
                 '}';
     }
+
+
 }

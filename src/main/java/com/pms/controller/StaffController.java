@@ -1,12 +1,14 @@
 package com.pms.controller;
 
 import com.pms.dao.StaffDao;
-import com.pms.dao.UserProfileDao;
 import com.pms.model.staff.Staff;
 import com.pms.model.userprofile.UserProfile;
+import com.pms.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -16,12 +18,12 @@ import javax.validation.Valid;
 public class StaffController {
 
     private StaffDao staffDao;
-    private UserProfileDao userProfileDao;
+    private final StaffService staffService;
 
     @Autowired
-    public StaffController(StaffDao staffDao, UserProfileDao userProfileDao) {
+    public StaffController(StaffDao staffDao, StaffService staffService) {
         this.staffDao = staffDao;
-        this.userProfileDao = userProfileDao;
+        this.staffService = staffService;
     }
 
     @GetMapping
@@ -45,12 +47,18 @@ public class StaffController {
 
     @PostMapping
     public Staff create(@Valid @RequestBody Staff staffToCreate) {
-        return staffDao.save(staffToCreate);
+//        return staffDao.save(staffToCreate);
+        return staffService.create(staffToCreate)
+                .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "error creating staff"));
     }
 
     @PutMapping(path = "{staffId}")
     public Staff update(@Valid @RequestBody Staff staffToUpdate, @PathVariable Long staffId) {
-        return staffDao.save(staffToUpdate);
+//        return staffDao.save(staffToUpdate);
+        return staffService.update(staffToUpdate, staffId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "error updating staff"));
     }
 
     @DeleteMapping(path = "{staffId}")

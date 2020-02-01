@@ -17,12 +17,9 @@ public class UserProfileService {
 
     private UserProfileDao userProfileDao;
 
-    private final PasswordEncoder passwordEncoder;
-
     @Autowired
     public UserProfileService(UserProfileDao userProfileDao) {
         this.userProfileDao = userProfileDao;
-        this.passwordEncoder = new BCryptPasswordEncoder(10);
     }
 
     public Iterable<UserProfile> getAll() {
@@ -37,7 +34,6 @@ public class UserProfileService {
         UserProfile profileToAdd = UserProfileBuilder
                 .userProfile()
                 .withUsername(userProfile.getUsername())
-//                .withPassword(passwordEncoder.encode(userProfile.getPassword()))
                 .withPassword(userProfile.getPassword())
                 .withEmail(userProfile.getEmail())
                 .withRole(userProfile.getRole().toString())

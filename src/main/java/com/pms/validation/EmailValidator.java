@@ -32,7 +32,8 @@ public class EmailValidator extends BaseValidator {
         Pattern pat = Pattern.compile(regex);
         String email = userProfile.getEmail();
         if (Strings.isNullOrEmpty(email) || !pat.matcher(email).matches()) {
-            return false;
+//            return false;
+            throw new RuntimeException("Email is empty or wrong format");
         }
         return checkNext(userProfile);
     }

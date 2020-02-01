@@ -198,7 +198,7 @@
 //
 //        patientList.get(0).setOccupation("Teacher");
 //        patientList.get(1).setOccupation("Driver");
-//        patientList.get(2).setOccupation("Accountant");
+//        patientList.get(2).setOccupation("PaymentStaff");
 //        patientList.get(3).setOccupation("Police Officer");
 //
 //        patientList.get(0).setSex(Sex.MALE);

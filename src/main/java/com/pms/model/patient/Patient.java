@@ -22,12 +22,7 @@ public class Patient {
 
     @Nullable
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumns(
-            {
-                    @JoinColumn(name = "user_profile_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "user_profile_role", referencedColumnName = "role")
-            }
-    )
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
     private UserProfile userProfile;
 
     private String occupation;

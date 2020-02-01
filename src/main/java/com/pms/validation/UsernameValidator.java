@@ -28,7 +28,8 @@ public class UsernameValidator extends BaseValidator {
         Pattern pat = Pattern.compile(regex);
         if (userProfile.getUsername() == null
                 || !pat.matcher(userProfile.getUsername()).matches()) {
-            return false;
+//            return false;
+            throw new RuntimeException("Username is empty or wrong format");
         }
         return checkNext(userProfile);
     }

@@ -26,6 +26,8 @@ public class AppointmentController {
 
     Logger logger = LogManager.getLogger(AppointmentController.class);
 
+    // TODO: FIX APPOINTMENT SERVICE AND CONTROLLER, MAYBE CHANGE THE WAY KEY IS CREATED
+
     @Autowired
     public AppointmentController(AppointmentDao appointmentDao, StaffDao staffDao, PatientDao patientDao, AppointmentService appointmentService) {
         this.appointmentDao = appointmentDao;
