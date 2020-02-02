@@ -60,7 +60,7 @@ public class PatientBuilder implements IPatientBuilder {
 
     @Override
     public IPatientBuilder withAppointments(Set<Appointment> appointments) {
-        operations.add(patient -> patient.setAppointments(appointments));
+//        operations.add(patient -> patient.setAppointments(appointments));
         return this;
     }
 

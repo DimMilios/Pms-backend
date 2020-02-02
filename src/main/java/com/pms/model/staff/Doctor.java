@@ -13,5 +13,8 @@ public class Doctor extends Staff {
 
     @OneToMany(mappedBy = "doctor")
     Set<Appointment> appointments;
-
+//
+//    public Set<Appointment> getAppointments() {
+//        return appointments;
+//    }
 }

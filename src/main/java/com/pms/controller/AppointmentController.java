@@ -8,10 +8,14 @@ import com.pms.model.appointment.Appointment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @RestController
 @RequestMapping("api/appointments")
@@ -19,20 +23,14 @@ import java.util.Set;
 public class AppointmentController {
 
     private AppointmentDao appointmentDao;
-    private StaffDao staffDao;
-    private PatientDao patientDao;
 
     private AppointmentService appointmentService;
 
     Logger logger = LogManager.getLogger(AppointmentController.class);
 
-    // TODO: FIX APPOINTMENT SERVICE AND CONTROLLER, MAYBE CHANGE THE WAY KEY IS CREATED
-
     @Autowired
-    public AppointmentController(AppointmentDao appointmentDao, StaffDao staffDao, PatientDao patientDao, AppointmentService appointmentService) {
+    public AppointmentController(AppointmentDao appointmentDao, AppointmentService appointmentService) {
         this.appointmentDao = appointmentDao;
-        this.staffDao = staffDao;
-        this.patientDao = patientDao;
         this.appointmentService = appointmentService;
     }
 
@@ -45,7 +43,22 @@ public class AppointmentController {
     public Appointment getOne(@PathVariable("doctorId") Long doctorId,
                               @PathVariable("ssn") Long ssn) {
         return appointmentService.selectByDoctorIdAndSsn(doctorId, ssn)
-                .orElseThrow(() -> new MyResourceNotFoundException("Could not find appointment"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Appointment not found"));
+    }
+
+    @GetMapping(path = "doctor/{doctorId}")
+    public Appointment getOneByDoctorId(@PathVariable(value = "doctorId") Long doctorId) {
+        return appointmentService.selectByDoctorId(doctorId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Appointment not found"));
+    }
+
+    @GetMapping(path = "patient/{ssn}")
+    public Appointment getOneBySsn(@PathVariable(value = "ssn") Long ssn) {
+        return appointmentService.selectByPatientSsn(ssn)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Appointment not found"));
     }
 
 //    @PostMapping
@@ -56,10 +69,43 @@ public class AppointmentController {
 //    }
 
     @PostMapping
-    public @ResponseBody Appointment create(@RequestParam Long doctorId, @RequestParam Long ssn) {
-        Optional<Appointment> appointment =  appointmentService.createAppointment(doctorId, ssn);
-        return appointment.map(app -> appointmentDao.save(app))
-                .orElseThrow(() -> new RuntimeException("Error saving appointment"));
+    public Appointment create(@RequestParam Long doctorId,
+                              @RequestParam Long ssn,
+                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time) {
+        return appointmentService.createAppointment(doctorId, ssn, date, time)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Error creating appointment"));
+    }
+
+    @DeleteMapping(path = "doctor/{doctorId}")
+    public ResponseEntity<?> deleteById(@PathVariable(value = "doctorId") Long doctorId) {
+        appointmentService.deleteById(doctorId);
+        return ResponseEntity.ok()
+                .body("Deleted appointments for doctor with id: " + doctorId);
+    }
+
+    @DeleteMapping(path = "patient/{ssn}")
+    public ResponseEntity<?> deleteBySsn(@PathVariable(value = "ssn") Long ssn) {
+        appointmentService.deleteBySsn(ssn);
+        return ResponseEntity.ok()
+                .body("Deleted appointments for patient with ssn: " + ssn);
+    }
+
+//    @DeleteMapping
+//    public ResponseEntity<?> deleteByDate(@RequestBody Timestamp timestamp) {
+//        appointmentService.deleteByAppointmentDate(timestamp);
+//
+//        return ResponseEntity.ok()
+//                .body("Deleted appointment");
+//    }
+
+    @DeleteMapping("/date-time")
+    public ResponseEntity<?> deleteByDate(
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time) {
+        appointmentService.deleteByDateAndTime(date, time);
+        return ResponseEntity.ok()
+                .body("Deleted appointment at: " + date.toString() + " " + time.toString());
     }
 }
-//

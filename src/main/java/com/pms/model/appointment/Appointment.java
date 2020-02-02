@@ -6,26 +6,40 @@ import com.pms.model.staff.Doctor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity(name = "appointments")
 public class Appointment {
 
-    @EmbeddedId
-    private AppointmentKey id;
+//    @EmbeddedId
+//    private AppointmentKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @MapsId("doctor_id")
+//    @MapsId("doctor_id")
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     @ManyToOne
-    @MapsId("ssn")
+//    @MapsId("ssn")
     @JoinColumn(name = "ssn")
     private Patient patient;
 
-    private Timestamp appointmentDate;
+    @Column(name = "appointment_date")
+    private LocalDate appointmentDate;
 
-    public void setId(AppointmentKey id) {
+    @Column(name = "appointment_time")
+    private LocalTime appointmentTime;
+
+//    public void setId(AppointmentKey id) {
+//        this.id = id;
+//    }
+
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,12 +59,20 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Timestamp getAppointmentDate() {
+    public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(Timestamp appointmentDate) {
+    public void setAppointmentDate(LocalDate appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+
+    public LocalTime getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(LocalTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
     }
 
     @Override

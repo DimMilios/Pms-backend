@@ -36,7 +36,7 @@ public class Patient {
     private FullName fullName;
 
     @OneToMany(mappedBy = "patient")
-    @JsonIgnore
+//    @JsonIgnore
     Set<Appointment> appointments;
 
     public Long getSsn() {
@@ -81,13 +81,13 @@ public class Patient {
         this.fullName = fullName;
     }
 
-    public Set<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(Set<Appointment> appointments) {
-        this.appointments = appointments;
-    }
+//    public Set<Appointment> getAppointments() {
+//        return appointments;
+//    }
+//
+//    public void setAppointments(Set<Appointment> appointments) {
+//        this.appointments = appointments;
+//    }
 
     @Override
     public String toString() {

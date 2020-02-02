@@ -45,25 +45,25 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2_console/**").permitAll();
 
-//        http.csrf().disable();
+        http.csrf().disable();
         http.headers().frameOptions().disable();
 
-        http
-                .authorizeRequests()
-                .and()
-                .csrf().disable()
-                .cors()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
-                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/api/**").permitAll() //.hasRole(ADMIN.name())
-                .anyRequest()
-                .authenticated();
+//        http
+//                .authorizeRequests()
+//                .and()
+//                .csrf().disable()
+//                .cors()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
+//                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
+//                .authorizeRequests()
+//                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+//                .antMatchers("/api/**").permitAll() //.hasRole(ADMIN.name())
+//                .anyRequest()
+//                .authenticated();
     }
 
 

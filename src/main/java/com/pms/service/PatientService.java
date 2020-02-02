@@ -62,7 +62,7 @@ public class PatientService implements GenericService<Patient> {
                 .withOccupation(patient.getOccupation())
                 .withUserProfile(patient.getUserProfile())
                 .withSex(patient.getSex().toString())
-                .withAppointments(patient.getAppointments())
+//                .withAppointments(patient.getAppointments())
                 .build();
     }
 }

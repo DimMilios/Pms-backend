@@ -80,7 +80,7 @@ public class InpatientBuilder implements IInpatientBuilder {
 
     @Override
     public IInpatientBuilder withAppointments(Set<Appointment> appointments) {
-        operations.add(patient -> patient.setAppointments(appointments));
+//        operations.add(patient -> patient.setAppointments(appointments));
         return this;
     }
 

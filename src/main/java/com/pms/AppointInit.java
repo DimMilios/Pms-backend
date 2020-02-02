@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 import javax.print.Doc;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Component
@@ -288,10 +290,12 @@ public class AppointInit implements CommandLineRunner {
         key.setPatientSsn(patients.get(0).getSsn());
 
         Appointment appointment = new Appointment();
-        appointment.setId(key);
+//        appointment.setId(key);
         appointment.setDoctor(doctors.get(0));
         appointment.setPatient(patients.get(0));
-        appointment.setAppointmentDate(new Timestamp(System.currentTimeMillis()));
+        appointment.setAppointmentDate(LocalDate.parse("2020-02-03"));
+        appointment.setAppointmentTime(LocalTime.parse("15:30:00"));
+//        appointment.setAppointmentDate(new Timestamp(System.currentTimeMillis()));
 
         appointmentDao.save(appointment);
         System.out.println(appointment);
@@ -301,35 +305,33 @@ public class AppointInit implements CommandLineRunner {
 //    @Override
 //    public void run(String... args) throws Exception {
 //        List<UserProfile> profiles = getUserProfiles();
-//        List<Patient> patients = getPatients(profiles);
-//        List<Address> addresses = getAddresses();
-//        List<Doctor> doctors = getDoctors(addresses, profiles);
+////        List<Patient> patients = getPatients(profiles);
+////        List<Address> addresses = getAddresses();
+////        List<Doctor> doctors = getDoctors(addresses, profiles);
 //
 //        Address address = new Address();
 //        address.setCity("Aquila d'Arroscia");
 //        address.setStreetAddress("234-1556 Auctor Av.");
 //        address.setZipCode(934356);
 //
-//        Patient patient = PatientBuilder
-//                .patient()
-//                .withSsn(3534534L)
-//                .withSex("MALE")
-//                .build();
+////        Patient patient = PatientBuilder
+////                .patient()
+////                .withSsn(3534534L)
+////                .withSex("MALE")
+////                .build();
+//        Patient patient = new Patient();
+//        patient.setSsn(43434L);
+//        patient.setUserProfile(profiles.get(0));
 //
 //        patientDao.save(patient);
 //
 //        Doctor doctor = new Doctor();
 //        doctor.setAddress(address);
-//        doctor.setUserProfile(profiles.get(0));
+//        doctor.setUserProfile(profiles.get(2));
 //
 //        staffDao.save(doctor);
 //
-//        AppointmentKey key = new AppointmentKey();
-//        key.setDoctorId(doctor.getId());
-//        key.setPatientSsn(patient.getSsn());
-//
 //        Appointment appointment = new Appointment();
-//        appointment.setId(key);
 //        appointment.setDoctor(doctor);
 //        appointment.setPatient(patient);
 //        appointment.setAppointmentDate(new Timestamp(System.currentTimeMillis()));

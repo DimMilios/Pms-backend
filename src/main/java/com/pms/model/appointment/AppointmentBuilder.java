@@ -44,7 +44,7 @@ public class AppointmentBuilder implements IAppointmentBuilder {
 
     @Override
     public IAppointmentBuilder withAppointmentDate(Timestamp appointmentDate) {
-        operations.add(appointment -> appointment.setAppointmentDate(appointmentDate));
+//        operations.add(appointment -> appointment.setAppointmentDate(appointmentDate));
         return this;
     }
 

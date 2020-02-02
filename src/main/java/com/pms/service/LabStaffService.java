@@ -40,23 +40,12 @@ public class LabStaffService implements GenericService<LabStaff> {
 
     @Override
     public Optional<LabStaff> create(LabStaff body) {
-
-        Optional<Staff> labStaff = userProfileService.createProfile(body.getUserProfile())
-                .map(p -> StaffBuilder.staff()
-                .withUserProfile(p)
-                .withFullName(body.getFullName())
-                .withAddress(body.getAddress())
-                .withPhoneNumbers(body.getPhoneNumbers())
-                .build());
-
-        return labStaff
-                .map(staffMapper::asLabStaff)
-                .map(labStaffDao::save);
+        return createBuild(body);
     }
 
     @Override
     public Optional<LabStaff> update(LabStaff body, Long id) {
-        return getBuild(body, id);
+        return updateBuild(body, id);
     }
 
     @Override
@@ -64,22 +53,47 @@ public class LabStaffService implements GenericService<LabStaff> {
         labStaffDao.deleteById(id);
     }
 
-    private Optional<LabStaff> getBuild(Staff staff, Long id) {
-        UserProfile profileToAdd = staff.getUserProfile();
+    private Optional<LabStaff> createBuild(LabStaff labStaff) {
+        UserProfile profileToAdd = labStaff.getUserProfile();
 
-//        userProfileService.delete(profileToAdd.getId());
-
-        Optional<Staff> labStaff = userProfileService.updateProfile(profileToAdd, id)
+        Optional<Staff> staff = userProfileService.createProfile(profileToAdd)
                 .map(profile -> StaffBuilder.staff()
                         .withUserProfile(profile)
-                        .withFullName(staff.getFullName())
-                        .withAddress(staff.getAddress())
-                        .withPhoneNumbers(staff.getPhoneNumbers())
-                        .withId(id)
+                        .withFullName(labStaff.getFullName())
+                        .withAddress(labStaff.getAddress())
+                        .withPhoneNumbers(labStaff.getPhoneNumbers())
                         .build());
 
-        return labStaff
+        return staff
                 .map(staffMapper::asLabStaff)
                 .map(labStaffDao::save);
+    }
+
+    private Optional<LabStaff> updateBuild(LabStaff staff, Long id) {
+        UserProfile profileToAdd = staff.getUserProfile();
+        Optional<UserProfile> profile = userProfileService.createProfile(profileToAdd);
+
+        Optional<LabStaff> labStaff = labStaffDao.findById(id);
+
+        return labStaff.map(lab -> {
+            lab.setUserProfile(profile.get());
+            lab.setFullName(staff.getFullName());
+            lab.setAddress(staff.getAddress());
+            lab.setPhoneNumbers(staff.getPhoneNumbers());
+            return lab;
+        }).map(labStaffDao::save);
+
+//        Optional<Staff> labStaff = userProfileService.createProfile(profileToAdd)
+//                .map(profile -> StaffBuilder.staff()
+//                        .withUserProfile(profile)
+//                        .withFullName(staff.getFullName())
+//                        .withAddress(staff.getAddress())
+//                        .withPhoneNumbers(staff.getPhoneNumbers())
+////                        .withId(id)
+//                        .build());
+
+//        return labStaff
+//                .map(staffMapper::asLabStaff)
+//                .map(labStaffDao::save);
     }
 }
