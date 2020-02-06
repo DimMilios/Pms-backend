@@ -6,28 +6,31 @@ import com.pms.model.userprofile.UserProfile;
 import com.pms.model.userprofile.UserProfileBuilder;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * The type Appointment builder.
+ */
 public class AppointmentBuilder implements IAppointmentBuilder {
 
     private List<Consumer<Appointment>> operations;
 
     private static AppointmentBuilder INSTANCE;
 
+    /**
+     * Appointment appointment builder.
+     *
+     * @return the appointment builder
+     */
     public static AppointmentBuilder appointment() {
         if (INSTANCE == null) {
             INSTANCE = new AppointmentBuilder();
         }
 
         return INSTANCE;
-    }
-
-    @Override
-    public IAppointmentBuilder withId(AppointmentKey key) {
-//        operations.add(appointment -> appointment.setId(key));
-//        return this;
-        return null;
     }
 
     @Override
@@ -43,8 +46,14 @@ public class AppointmentBuilder implements IAppointmentBuilder {
     }
 
     @Override
-    public IAppointmentBuilder withAppointmentDate(Timestamp appointmentDate) {
-//        operations.add(appointment -> appointment.setAppointmentDate(appointmentDate));
+    public IAppointmentBuilder withAppointmentDate(LocalDate appointmentDate) {
+        operations.add(appointment -> appointment.setAppointmentDate(appointmentDate));
+        return this;
+    }
+
+    @Override
+    public IAppointmentBuilder withAppointmentTime(LocalTime appointmentTime) {
+        operations.add(appointment -> appointment.setAppointmentTime(appointmentTime));
         return this;
     }
 

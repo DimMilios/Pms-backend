@@ -25,11 +25,20 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
+/**
+ * The type Jwt token verifier.
+ */
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
 
+    /**
+     * Instantiates a new Jwt token verifier.
+     *
+     * @param secretKey the secret key
+     * @param jwtConfig the jwt config
+     */
     public JwtTokenVerifier(SecretKey secretKey,
                             JwtConfig jwtConfig) {
         this.secretKey = secretKey;

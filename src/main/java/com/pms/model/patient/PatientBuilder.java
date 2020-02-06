@@ -5,6 +5,7 @@ import com.pms.model.FullName;
 import com.pms.model.Sex;
 import com.pms.model.userprofile.UserProfile;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class PatientBuilder implements IPatientBuilder {
 
     @Override
     public IPatientBuilder withSex(String sex) {
-        operations.add(patient -> patient.setSex(Sex.toSex(sex)));
+        operations.add(patient -> patient.setSex(Sex.valueOf(sex)));
         return this;
     }
 
@@ -59,8 +60,8 @@ public class PatientBuilder implements IPatientBuilder {
     }
 
     @Override
-    public IPatientBuilder withAppointments(Set<Appointment> appointments) {
-//        operations.add(patient -> patient.setAppointments(appointments));
+    public IPatientBuilder withBirthDate(LocalDate birthDate) {
+        operations.add(patient -> patient.setBirthDate(birthDate));
         return this;
     }
 

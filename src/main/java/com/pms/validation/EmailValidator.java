@@ -5,6 +5,9 @@ import com.pms.model.userprofile.UserProfile;
 
 import java.util.regex.Pattern;
 
+/**
+ * The type Email validator.
+ */
 public class EmailValidator extends BaseValidator {
 
     private static final String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:" +
@@ -13,16 +16,10 @@ public class EmailValidator extends BaseValidator {
             "|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:" +
             "[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
-//    private static EmailValidator INSTANCE;
-//
-//    public static EmailValidator getValidator() {
-//        if (INSTANCE == null) {
-//            INSTANCE = new EmailValidator();
-//        }
-//
-//        return INSTANCE;
-//    }
 
+    /**
+     * Instantiates a new Email validator.
+     */
     public EmailValidator() {
     }
 
@@ -32,7 +29,6 @@ public class EmailValidator extends BaseValidator {
         Pattern pat = Pattern.compile(regex);
         String email = userProfile.getEmail();
         if (Strings.isNullOrEmpty(email) || !pat.matcher(email).matches()) {
-//            return false;
             throw new RuntimeException("Email is empty or wrong format");
         }
         return checkNext(userProfile);

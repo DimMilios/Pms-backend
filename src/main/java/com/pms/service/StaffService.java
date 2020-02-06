@@ -1,6 +1,7 @@
 package com.pms.service;
 
 import com.pms.dao.StaffDao;
+import com.pms.model.patient.Patient;
 import com.pms.model.staff.LabStaff;
 import com.pms.model.staff.Staff;
 import com.pms.model.staff.StaffBuilder;
@@ -10,12 +11,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * The type Staff service.
+ */
 @Service
 public class StaffService implements GenericService<Staff> {
 
     private final StaffDao staffDao;
     private final UserProfileService userProfileService;
 
+    /**
+     * Instantiates a new Staff service.
+     *
+     * @param staffDao           the staff dao
+     * @param userProfileService the user profile service
+     */
     @Autowired
     public StaffService(StaffDao staffDao, UserProfileService userProfileService) {
         this.staffDao = staffDao;
@@ -30,6 +40,16 @@ public class StaffService implements GenericService<Staff> {
     @Override
     public Optional<Staff> getById(Long id) {
         return staffDao.findById(id);
+    }
+
+    /**
+     * Gets by username.
+     *
+     * @param username the username
+     * @return the by username
+     */
+    public Optional<Staff> getByUsername(String username) {
+        return staffDao.findByUserProfileUsername(username);
     }
 
     @Override

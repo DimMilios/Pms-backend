@@ -7,8 +7,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "lab_staff")
+@Entity(name = "lab_staff")
 @DiscriminatorValue("Lab_staff")
 public class LabStaff extends Staff{
 

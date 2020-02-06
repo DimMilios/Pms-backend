@@ -5,6 +5,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class StaffMapper {
 
+    public Doctor asDoctor(Staff staff) {
+        Doctor doctor = new Doctor();
+        doctor.setId(staff.getId());
+        doctor.setUserProfile(staff.getUserProfile());
+        doctor.setFullName(staff.getFullName());
+        doctor.setAddress(staff.getAddress());
+        doctor.setPhoneNumbers(staff.getPhoneNumbers());
+        return doctor;
+    }
+
     public LabStaff asLabStaff(Staff staff) {
         LabStaff labStaff = new LabStaff();
         labStaff.setId(staff.getId());

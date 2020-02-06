@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * The type Application user.
+ */
 public class ApplicationUser implements UserDetails {
 
     private final UserProfile userProfile;
@@ -18,6 +21,16 @@ public class ApplicationUser implements UserDetails {
     private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
 
+    /**
+     * Instantiates a new Application user.
+     *
+     * @param userProfile             the user profile
+     * @param grantedAuthorities      the granted authorities
+     * @param isAccountNonExpired     the is account non expired
+     * @param isAccountNonLocked      the is account non locked
+     * @param isCredentialsNonExpired the is credentials non expired
+     * @param isEnabled               the is enabled
+     */
     public ApplicationUser(UserProfile userProfile,
                            Set<? extends GrantedAuthority> grantedAuthorities,
                            boolean isAccountNonExpired,
@@ -34,6 +47,11 @@ public class ApplicationUser implements UserDetails {
         this.isEnabled = isEnabled;
     }
 
+    /**
+     * Gets user profile.
+     *
+     * @return the user profile
+     */
     public UserProfile getUserProfile() {
         return userProfile;
     }

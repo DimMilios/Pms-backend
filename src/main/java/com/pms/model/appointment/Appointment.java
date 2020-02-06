@@ -1,43 +1,49 @@
 package com.pms.model.appointment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.pms.model.patient.Patient;
 import com.pms.model.staff.Doctor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity(name = "appointments")
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "doctor_id",
+                "appointment_date",
+                "appointment_time"
+        })
+})
 public class Appointment {
 
-//    @EmbeddedId
-//    private AppointmentKey id;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty
     private Long id;
 
     @ManyToOne
-//    @MapsId("doctor_id")
     @JoinColumn(name = "doctor_id")
+    @NotNull
     private Doctor doctor;
 
     @ManyToOne
-//    @MapsId("ssn")
     @JoinColumn(name = "ssn")
+    @NotNull
     private Patient patient;
 
+    @NotNull
     @Column(name = "appointment_date")
     private LocalDate appointmentDate;
 
+    @NotNull
     @Column(name = "appointment_time")
     private LocalTime appointmentTime;
-
-//    public void setId(AppointmentKey id) {
-//        this.id = id;
-//    }
-
 
     public void setId(Long id) {
         this.id = id;

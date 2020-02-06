@@ -1,0 +1,101 @@
+-----------------------------------------------------------------------------
+Appointments http://localhost:8080/api/appointments
+
+Get(All) -> http://localhost:8080/api/appointments 
+Get(One) -> http://localhost:8080/api/appointments/:doctorId/:ssn
+Get(byDoctorId) -> http://localhost:8080/api/appointments/doctor/:doctorId
+Get(byPatientSsn) -> http://localhost:8080/api/appointments/patient/:ssn
+Get Doctor(date, time) http://localhost:8080/api/appointments/doctor-availability?date=:date&time=:time
+
+Post -> http://localhost:8080/api/appointments?doctorId=:doctorId
+&ssn=:ssn&date=:date&time=:time
+
+Delete(byDoctorId) -> http://localhost:8080/api/appointments/doctor/:doctorId
+Delete(byPatientSsn) -> http://localhost:8080/api/appointments/patient/:ssn
+Delete(byDateAndTime) -> http://localhost:8080/api/appointments/date-time?date=:date&time=:time
+-----------------------------------------------------------------------------
+
+Doctors http://localhost:8080/api/doctors
+
+Get(All) -> http://localhost:8080/api/doctors
+Get(One) -> http://localhost:8080/api/doctors/:doctorId
+
+Post -> http://localhost:8080/api/doctors (Doctor json request body)
+
+Put -> http://localhost:8080/api/doctors/:doctorId (Doctor json request body, id)
+
+Delete -> http://localhost:8080/api/doctors/:doctorId
+
+-----------------------------------------------------------------------------
+
+Inpatient http://localhost:8080/api/inpatients
+
+Get(All) -> http://localhost:8080/api/inpatients
+Get(One) -> http://localhost:8080/api/inpatients/:ssn
+Get(byUsername) -> http://localhost:8080/api/patients/username/:username
+
+Post -> http://localhost:8080/api/inpatients
+
+Put -> http://localhost:8080/api/inpatients/:ssn
+
+Delete -> http://localhost:8080/api/inpatients/:ssn
+
+-----------------------------------------------------------------------------
+
+Staff, LabStaff, PaymentStaff, Receptionists
+
+http://localhost:8080/api/staff
+http://localhost:8080/api/lab-staff
+http://localhost:8080/api/payment-staff
+http://localhost:8080/api/receptionists
+
+Get(All) -> http://localhost:8080/api/lab-staff
+Get(One) -> http://localhost:8080/api/lab-staff/:staffId
+
+Post -> http://localhost:8080/api/lab-staff
+
+Put -> http://localhost:8080/api/lab-staff/:staffId
+
+Delete -> http://localhost:8080/api/lab-staff/:staffId
+
+-----------------------------------------------------------------------------
+
+Medicine http://localhost:8080/api/medicine
+
+Get(All) -> http://localhost:8080/api/medicine
+Get(One) -> http://localhost:8080/api/medicine/:medicineId
+
+Post -> http://localhost:8080/api/medicine
+
+Put -> http://localhost:8080/api/medicine/:medicineId
+
+Delete -> http://localhost:8080/api/medicine/:medicineId
+
+-----------------------------------------------------------------------------
+
+Prescriptions http://localhost:8080/api/prescriptions
+
+Get(All) -> http://localhost:8080/api/prescriptions
+
+Post -> http://localhost:8080/api/prescriptions?date=:date 
+(Prescription json request body with doctorId, patientSsn, medicineId and int dosage)
+
+example: 
+{
+	"doctor": {
+		"id": 2
+	},
+	"patient": {
+		"ssn": 59843
+	},
+    "medicine": {
+    	"id": 2
+    },
+    "dosage": 1000
+}
+
+Delete(byPrescriptionId) -> http://localhost:8080/api/prescriptions/:prescriptionId
+Delete(byPatientAndDate) -> http://localhost:8080/api/prescriptions/patient?ssn=:ssn&date=:date
+Delete(byDoctorAndDate) -> http://localhost:8080/api/prescriptions/doctor?doctorId=:doctorId&date=:date
+
+-----------------------------------------------------------------------------

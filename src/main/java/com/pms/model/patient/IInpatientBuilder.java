@@ -6,8 +6,12 @@ import com.pms.model.userprofile.UserProfile;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * The interface Inpatient builder.
+ */
 public interface IInpatientBuilder extends IPatientBuilder {
 
     IInpatientBuilder withSsn(Long ssn);
@@ -20,12 +24,30 @@ public interface IInpatientBuilder extends IPatientBuilder {
 
     IInpatientBuilder withFullName(FullName fullname);
 
-    IInpatientBuilder withAppointments(Set<Appointment> appointments);
+    IInpatientBuilder withBirthDate(LocalDate birthDate);
 
+    /**
+     * With admit date inpatient builder.
+     *
+     * @param admitDate the admit date
+     * @return the inpatient builder
+     */
     IInpatientBuilder withAdmitDate(Timestamp admitDate);
 
+    /**
+     * With discharge date inpatient builder.
+     *
+     * @param dischargeDate the discharge date
+     * @return the inpatient builder
+     */
     IInpatientBuilder withDischargeDate(Date dischargeDate);
 
+    /**
+     * With current diagnosis inpatient builder.
+     *
+     * @param currentDiagnosis the current diagnosis
+     * @return the inpatient builder
+     */
     IInpatientBuilder withCurrentDiagnosis(String currentDiagnosis);
 
     Inpatient build();

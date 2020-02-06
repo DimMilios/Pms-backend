@@ -1,13 +1,19 @@
 package com.pms.model;
 
+/**
+ * The enum Role.
+ */
 public enum Role {
-    USER, STAFF, ADMIN;
-
-    public static Role toRole(String str) {
-        return Role.valueOf(str.toUpperCase());
-    }
-
-    public static String fromRole(Role role) {
-        return role.toString();
-    }
+    /**
+     * User role.
+     */
+    USER,
+    /**
+     * Staff role.
+     */
+    STAFF,
+    /**
+     * Admin role.
+     */
+    ADMIN;
 }

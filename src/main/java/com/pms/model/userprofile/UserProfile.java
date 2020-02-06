@@ -5,8 +5,10 @@ import com.pms.model.Role;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "user_profiles")
+/**
+ * The type User profile.
+ */
+@Entity(name = "user_profiles")
 public class UserProfile implements Serializable {
 
     @Id
@@ -24,42 +26,92 @@ public class UserProfile implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Sets username.
+     *
+     * @param username the username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Gets role.
+     *
+     * @return the role
+     */
     public Role getRole() {
         return role;
     }
 
+    /**
+     * Sets role.
+     *
+     * @param role the role
+     */
     public void setRole(Role role) {
         this.role = role;
     }

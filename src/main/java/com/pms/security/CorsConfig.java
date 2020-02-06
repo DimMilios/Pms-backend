@@ -12,9 +12,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * The type Cors config.
+ */
 @Configuration
 public class CorsConfig {
 
+    /**
+     * Cors filter cors filter.
+     *
+     * @return the cors filter
+     */
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

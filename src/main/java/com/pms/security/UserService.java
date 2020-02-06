@@ -9,11 +9,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * The type User service.
+ */
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserProfileDao userProfileDao;
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param userProfileDao the user profile dao
+     */
     @Autowired
     public UserService(UserProfileDao userProfileDao) {
         this.userProfileDao = userProfileDao;

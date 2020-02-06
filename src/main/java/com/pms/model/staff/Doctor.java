@@ -1,20 +1,20 @@
 package com.pms.model.staff;
 
 import com.pms.model.appointment.Appointment;
+import com.pms.model.prescription.Prescription;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "doctors")
+@Entity(name = "doctors")
 @DiscriminatorValue("Doctor")
-//@PrimaryKeyJoinColumn(name = "id")
 public class Doctor extends Staff {
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     Set<Appointment> appointments;
-//
-//    public Set<Appointment> getAppointments() {
-//        return appointments;
-//    }
+
+    @OneToMany(mappedBy = "doctor",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    Set<Prescription> prescriptions;
 }

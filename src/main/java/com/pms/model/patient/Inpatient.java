@@ -2,37 +2,75 @@ package com.pms.model.patient;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "inpatients")
+/**
+ * The type Inpatient.
+ */
+@Entity(name = "inpatients")
 public class Inpatient extends Patient {
 
-    private Timestamp admitDate;
-    private Date dischargeDate;
+    private LocalDateTime admitDate;
+
+    private LocalDate dischargeDate;
+
     private String currentDiagnosis;
 
-    public Timestamp getAdmitDate() {
+    /**
+     * Gets admit date.
+     *
+     * @return the admit date
+     */
+    public LocalDateTime getAdmitDate() {
         return admitDate;
     }
 
-    public void setAdmitDate(Timestamp admitDate) {
+    /**
+     * Sets admit date.
+     *
+     * @param admitDate the admit date
+     */
+    public void setAdmitDate(LocalDateTime admitDate) {
         this.admitDate = admitDate;
     }
 
-    public Date getDischargeDate() {
+    /**
+     * Gets discharge date.
+     *
+     * @return the discharge date
+     */
+    public LocalDate getDischargeDate() {
         return dischargeDate;
     }
 
-    public void setDischargeDate(Date dischargeDate) {
+    /**
+     * Sets discharge date.
+     *
+     * @param dischargeDate the discharge date
+     */
+    public void setDischargeDate(LocalDate dischargeDate) {
         this.dischargeDate = dischargeDate;
     }
 
+    /**
+     * Gets current diagnosis.
+     *
+     * @return the current diagnosis
+     */
     public String getCurrentDiagnosis() {
         return currentDiagnosis;
     }
 
+    /**
+     * Sets current diagnosis.
+     *
+     * @param currentDiagnosis the current diagnosis
+     */
     public void setCurrentDiagnosis(String currentDiagnosis) {
         this.currentDiagnosis = currentDiagnosis;
     }

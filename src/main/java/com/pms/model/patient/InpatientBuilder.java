@@ -7,6 +7,7 @@ import com.pms.model.userprofile.UserProfile;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,13 +33,13 @@ public class InpatientBuilder implements IInpatientBuilder {
 
     @Override
     public IInpatientBuilder withAdmitDate(Timestamp admitDate) {
-        operations.add(patient -> patient.setAdmitDate(admitDate));
+//        operations.add(patient -> patient.setAdmitDate(admitDate));
         return this;
     }
 
     @Override
     public IInpatientBuilder withDischargeDate(Date dischargeDate) {
-        operations.add(patient -> patient.setDischargeDate(dischargeDate));
+//        operations.add(patient -> patient.setDischargeDate(dischargeDate));
         return this;
     }
 
@@ -67,6 +68,12 @@ public class InpatientBuilder implements IInpatientBuilder {
     }
 
     @Override
+    public IInpatientBuilder withBirthDate(LocalDate birthDate) {
+        operations.add(patient -> patient.setBirthDate(birthDate));
+        return this;
+    }
+
+    @Override
     public IInpatientBuilder withUserProfile(UserProfile userProfile) {
         operations.add(inpatient -> inpatient.setUserProfile(userProfile));
         return this;
@@ -78,11 +85,7 @@ public class InpatientBuilder implements IInpatientBuilder {
         return this;
     }
 
-    @Override
-    public IInpatientBuilder withAppointments(Set<Appointment> appointments) {
-//        operations.add(patient -> patient.setAppointments(appointments));
-        return this;
-    }
+
 
     @Override
     public Inpatient build() {

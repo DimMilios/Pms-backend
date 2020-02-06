@@ -9,13 +9,23 @@ import java.util.stream.Collectors;
 
 import static com.pms.security.UserPermission.*;
 
+/**
+ * The enum User role.
+ */
 public enum UserRole {
-    USER(Sets.newHashSet()),
+    /**
+     * User user role.
+     */
+    USER(Sets.newHashSet(PATIENT_READ, PATIENT_WRITE)),
+    /**
+     * Staff user role.
+     */
     STAFF(Sets.newHashSet(STAFF_READ, STAFF_WRITE)),
-    ADMIN(Sets.newHashSet(STAFF_READ, STAFF_WRITE, PATIENT_READ, PATIENT_WRITE));
-//    USER,
-//    STAFF,
-//    ADMIN;
+    /**
+     * Admin user role.
+     */
+    ADMIN(Sets.newHashSet(STAFF_READ, STAFF_WRITE, PATIENT_READ, PATIENT_WRITE,
+            APPOINTMENT_READ, APPOINTMENT_WRITE, PRESCRIPTION_READ, PRESCRIPTION_WRITE));
 
     private final Set<UserPermission> permissions;
 
@@ -23,9 +33,20 @@ public enum UserRole {
         this.permissions = permissions;
     }
 
+    /**
+     * Gets permissions.
+     *
+     * @return the permissions
+     */
     public Set<UserPermission> getPermissions() {
         return permissions;
     }
+
+    /**
+     * Gets granted authorities.
+     *
+     * @return the granted authorities
+     */
 //
     public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
         Set<SimpleGrantedAuthority> permissions = getPermissions().stream()
@@ -33,6 +54,5 @@ public enum UserRole {
                 .collect(Collectors.toSet());
         permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return permissions;
-//        return Sets.newHashSet(new SimpleGrantedAuthority("ROLE_" + this.name()));
     }
 }

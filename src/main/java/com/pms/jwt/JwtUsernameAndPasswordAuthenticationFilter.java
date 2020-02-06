@@ -18,12 +18,22 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * The type Jwt username and password authentication filter.
+ */
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
     private final SecretKey secretKey;
 
+    /**
+     * Instantiates a new Jwt username and password authentication filter.
+     *
+     * @param authenticationManager the authentication manager
+     * @param jwtConfig             the jwt config
+     * @param secretKey             the secret key
+     */
     public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager,
                                                       JwtConfig jwtConfig,
                                                       SecretKey secretKey) {

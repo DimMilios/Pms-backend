@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * The type Receptionist service.
+ */
 @Service
 public class ReceptionistService implements GenericService<Receptionist> {
 
@@ -15,6 +18,13 @@ public class ReceptionistService implements GenericService<Receptionist> {
     private final UserProfileService userProfileService;
     private final StaffMapper staffMapper;
 
+    /**
+     * Instantiates a new Receptionist service.
+     *
+     * @param receptionistDao    the receptionist dao
+     * @param userProfileService the user profile service
+     * @param staffMapper        the staff mapper
+     */
     @Autowired
     public ReceptionistService(ReceptionistDao receptionistDao,
                                UserProfileService userProfileService,
@@ -34,9 +44,20 @@ public class ReceptionistService implements GenericService<Receptionist> {
         return receptionistDao.findById(id);
     }
 
+    /**
+     * Gets by username.
+     *
+     * @param username the username
+     * @return the by username
+     */
+    public Optional<Receptionist> getByUsername(String username) {
+        return receptionistDao.findByUserProfileUsername(username);
+    }
+
+
     @Override
     public Optional<Receptionist> create(Receptionist body) {
-        return getBuild(body, body.getId());
+        return createBuild(body);
     }
 
     @Override
@@ -49,20 +70,35 @@ public class ReceptionistService implements GenericService<Receptionist> {
         receptionistDao.deleteById(id);
     }
 
-    private Optional<Receptionist> getBuild(Staff staff, Long id) {
-        UserProfile profileToAdd = staff.getUserProfile();
+    private Optional<Receptionist> createBuild(Receptionist receptionist) {
+        UserProfile profileToAdd = receptionist.getUserProfile();
 
-        Optional<Staff> receptionist = userProfileService.createProfile(profileToAdd)
+        Optional<Staff> staff = userProfileService.createProfile(profileToAdd)
                 .map(profile -> StaffBuilder.staff()
                         .withUserProfile(profile)
-                        .withFullName(staff.getFullName())
-                        .withAddress(staff.getAddress())
-                        .withPhoneNumbers(staff.getPhoneNumbers())
-                        .withId(id)
+                        .withFullName(receptionist.getFullName())
+                        .withAddress(receptionist.getAddress())
+                        .withPhoneNumbers(receptionist.getPhoneNumbers())
                         .build());
 
-        return receptionist
+        return staff
                 .map(staffMapper::asReceptionist)
                 .map(receptionistDao::save);
+    }
+
+    private Optional<Receptionist> getBuild(Staff staff, Long id) {
+        UserProfile profileToAdd = staff.getUserProfile();
+        Optional<UserProfile> profile = userProfileService.updateProfile(profileToAdd, profileToAdd.getId());
+
+
+        Optional<Receptionist> receptionist = receptionistDao.findById(id);
+
+        return receptionist.map(rec -> {
+            rec.setUserProfile(profile.get());
+            rec.setFullName(staff.getFullName());
+            rec.setAddress(staff.getAddress());
+            rec.setPhoneNumbers(staff.getPhoneNumbers());
+            return rec;
+        }).map(receptionistDao::save);
     }
 }

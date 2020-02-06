@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * The type Payment staff service.
+ */
 @Service
 public class PaymentStaffService implements GenericService<PaymentStaff> {
 
@@ -14,6 +17,13 @@ public class PaymentStaffService implements GenericService<PaymentStaff> {
     private final UserProfileService userProfileService;
     private final StaffMapper staffMapper;
 
+    /**
+     * Instantiates a new Payment staff service.
+     *
+     * @param paymentStaffDao    the payment staff dao
+     * @param userProfileService the user profile service
+     * @param staffMapper        the staff mapper
+     */
     public PaymentStaffService(PaymentStaffDao paymentStaffDao,
                                UserProfileService userProfileService,
                                StaffMapper staffMapper) {
@@ -31,6 +41,17 @@ public class PaymentStaffService implements GenericService<PaymentStaff> {
     public Optional<PaymentStaff> getById(Long id) {
         return paymentStaffDao.findById(id);
     }
+
+    /**
+     * Gets by username.
+     *
+     * @param username the username
+     * @return the by username
+     */
+    public Optional<PaymentStaff> getByUsername(String username) {
+        return paymentStaffDao.findByUserProfileUsername(username);
+    }
+
 
     @Override
     public Optional<PaymentStaff> create(PaymentStaff body) {

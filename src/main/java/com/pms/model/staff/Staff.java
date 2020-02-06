@@ -10,8 +10,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "staff")
+@Entity(name = "staff")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "staff_type", discriminatorType = DiscriminatorType.STRING)
 public class Staff {
@@ -21,8 +20,8 @@ public class Staff {
     @Column(name = "id", unique=true, nullable = false)
     protected Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id", unique = true)
     private UserProfile userProfile;
 
     @Nullable

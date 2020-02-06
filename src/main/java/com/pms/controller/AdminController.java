@@ -14,6 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.Optional;
 
+/**
+ * The type Admin controller.
+ */
 @RestController
 @RequestMapping("api/admin")
 @CrossOrigin
@@ -22,18 +25,35 @@ public class AdminController {
     private final AdminService adminService;
     private final UserProfileService userProfileService;
 
+    /**
+     * Instantiates a new Admin controller.
+     *
+     * @param adminService       the admin service
+     * @param userProfileService the user profile service
+     */
     @Autowired
     public AdminController(AdminService adminService, UserProfileService userProfileService) {
         this.adminService = adminService;
         this.userProfileService = userProfileService;
     }
 
+    /**
+     * Gets all.
+     *
+     * @return the all
+     */
     @GetMapping
 //    @PreAuthorize("hasAnyRole('ADMIN')")
     public Iterable<Admin> getAll() {
         return adminService.getAll();
     }
 
+    /**
+     * Gets by id.
+     *
+     * @param adminId the admin id
+     * @return the by id
+     */
     @GetMapping(path = "{adminId}")
     public Admin getById(@PathVariable("adminId") Long adminId) {
         return adminService.getById(adminId)
@@ -41,12 +61,25 @@ public class AdminController {
                         new RuntimeException("Could not find admin with id: " + adminId));
     }
 
+    /**
+     * Create admin admin.
+     *
+     * @param adminToAdd the admin to add
+     * @return the admin
+     */
     @PostMapping
     public Admin createAdmin(@Valid @RequestBody Admin adminToAdd) {
         return adminService.create(adminToAdd)
                 .orElseThrow(() -> new RuntimeException("Error creating admin"));
     }
 
+    /**
+     * Update admin admin.
+     *
+     * @param adminId  the admin id
+     * @param newAdmin the new admin
+     * @return the admin
+     */
     @PutMapping(path = "{adminId}")
     public Admin updateAdmin(@PathVariable("adminId") Long adminId,
                              @Valid @RequestBody Admin newAdmin) {
@@ -56,6 +89,12 @@ public class AdminController {
                 new RuntimeException("Could not update admin with id: " + adminId));
     }
 
+    /**
+     * Delete admin response entity.
+     *
+     * @param adminId the admin id
+     * @return the response entity
+     */
     @DeleteMapping(path = "{adminId}")
     public ResponseEntity<?> deleteAdmin(@PathVariable Long adminId) {
         try {
@@ -68,6 +107,12 @@ public class AdminController {
         }
     }
 
+    /**
+     * Gets admin profile.
+     *
+     * @param adminId the admin id
+     * @return the admin profile
+     */
     @GetMapping(path = "{adminId}/user-profile")
     public UserProfile getAdminProfile(@PathVariable Long adminId) {
         return adminService
@@ -76,6 +121,13 @@ public class AdminController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "error creating profile"));
     }
 
+    /**
+     * Create admin profile admin.
+     *
+     * @param adminId   the admin id
+     * @param profileId the profile id
+     * @return the admin
+     */
     @PutMapping(path = "{adminId}/user-profiles/{profileId}")
     public Admin createAdminProfile(@PathVariable Long adminId, @PathVariable Long profileId) {
         UserProfile profile = userProfileService.getById(profileId).get();
@@ -86,6 +138,12 @@ public class AdminController {
 //                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "error creating profile"));
     }
 
+    /**
+     * Delete profile response entity.
+     *
+     * @param adminId the admin id
+     * @return the response entity
+     */
     @DeleteMapping(path = "{adminId}/user-profiles")
     public ResponseEntity<?> deleteProfile(@PathVariable Long adminId) {
         Admin admin =  adminService.getById(adminId).get();

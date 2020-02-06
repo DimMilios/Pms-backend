@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * The type Lab staff service.
+ */
 @Service
 public class LabStaffService implements GenericService<LabStaff> {
 
@@ -19,6 +22,13 @@ public class LabStaffService implements GenericService<LabStaff> {
     private final UserProfileService userProfileService;
     private final StaffMapper staffMapper;
 
+    /**
+     * Instantiates a new Lab staff service.
+     *
+     * @param labStaffDao        the lab staff dao
+     * @param userProfileService the user profile service
+     * @param staffMapper        the staff mapper
+     */
     @Autowired
     public LabStaffService(LabStaffDao labStaffDao,
                            UserProfileService userProfileService,
@@ -37,6 +47,11 @@ public class LabStaffService implements GenericService<LabStaff> {
     public Optional<LabStaff> getById(Long id) {
         return labStaffDao.findById(id);
     }
+
+    public Optional<LabStaff> getByUsername(String username) {
+        return labStaffDao.findByUserProfileUsername(username);
+    }
+
 
     @Override
     public Optional<LabStaff> create(LabStaff body) {
@@ -71,7 +86,7 @@ public class LabStaffService implements GenericService<LabStaff> {
 
     private Optional<LabStaff> updateBuild(LabStaff staff, Long id) {
         UserProfile profileToAdd = staff.getUserProfile();
-        Optional<UserProfile> profile = userProfileService.createProfile(profileToAdd);
+        Optional<UserProfile> profile = userProfileService.updateProfile(profileToAdd, profileToAdd.getId());
 
         Optional<LabStaff> labStaff = labStaffDao.findById(id);
 
@@ -82,18 +97,5 @@ public class LabStaffService implements GenericService<LabStaff> {
             lab.setPhoneNumbers(staff.getPhoneNumbers());
             return lab;
         }).map(labStaffDao::save);
-
-//        Optional<Staff> labStaff = userProfileService.createProfile(profileToAdd)
-//                .map(profile -> StaffBuilder.staff()
-//                        .withUserProfile(profile)
-//                        .withFullName(staff.getFullName())
-//                        .withAddress(staff.getAddress())
-//                        .withPhoneNumbers(staff.getPhoneNumbers())
-////                        .withId(id)
-//                        .build());
-
-//        return labStaff
-//                .map(staffMapper::asLabStaff)
-//                .map(labStaffDao::save);
     }
 }
