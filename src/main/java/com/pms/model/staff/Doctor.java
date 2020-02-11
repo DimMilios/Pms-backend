@@ -6,6 +6,7 @@ import com.pms.model.prescription.Prescription;
 import javax.persistence.*;
 import java.util.Set;
 
+
 @Entity(name = "doctors")
 @DiscriminatorValue("Doctor")
 public class Doctor extends Staff {

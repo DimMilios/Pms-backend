@@ -8,6 +8,7 @@ import com.pms.model.staff.Doctor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;

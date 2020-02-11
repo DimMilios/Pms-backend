@@ -67,9 +67,10 @@ public class AppointmentService {
      * @return the optional
      */
     public Optional<Doctor> selectNotDateAndTime(LocalDate date, LocalTime time) {
-//        Long doctorId = appointmentDao.findFirstByAppointmentDateIsNotAndAppointmentTimeIsNot(date, time);
-        return Optional.of(appointmentDao.findFirstByAppointmentDateNotAndAppointmentTimeNot(date, time).getDoctor());
-//        return doctorDao.findById(doctorId);
+        return doctorDao
+                .findAvailableForAppointment(date, time)
+                .stream()
+                .findFirst();
     }
 
     public Optional<Doctor> selectNotDate(LocalDate date) {

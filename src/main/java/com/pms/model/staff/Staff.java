@@ -1,5 +1,6 @@
 package com.pms.model.staff;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.pms.model.Address;
 import com.pms.model.FullName;
@@ -41,6 +42,17 @@ public class Staff {
     )
     @Column(name = "phone_no")
     private Set<PhoneNumber> phoneNumbers;
+
+    public Staff(@JsonProperty UserProfile userProfile,
+                 @JsonProperty FullName fullName,
+                 @JsonProperty Address address) {
+        this.userProfile = userProfile;
+        this.fullName = fullName;
+        this.address = address;
+    }
+
+    public Staff() {
+    }
 
     public Long getId() {
         return id;
@@ -95,7 +107,6 @@ public class Staff {
         return "Staff{" +
                 "id=" + id +
                 ", userProfile=" + userProfile +
-                ", phoneNumbers=" + phoneNumbers +
                 ", fullName=" + fullName +
                 ", address=" + address +
                 ", staffType=" + getStaffType() +
