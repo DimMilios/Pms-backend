@@ -68,20 +68,4 @@ public interface UserProfileDao extends CrudRepository<UserProfile, Long> {
      */
     Optional<UserProfile> findByEmail(String email);
 
-    /**
-     * Exists by username boolean.
-     *
-     * @param username the username
-     * @return the boolean
-     */
-    boolean existsByUsername(String username);
-
-    /**
-     * Exists by email boolean.
-     *
-     * @param email the email
-     * @return the boolean
-     */
-    boolean existsByEmail(String email);
-
 }

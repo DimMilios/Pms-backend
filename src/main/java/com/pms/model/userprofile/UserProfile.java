@@ -3,6 +3,8 @@ package com.pms.model.userprofile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pms.model.Role;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -16,14 +18,18 @@ public class UserProfile implements Serializable {
     private Long id;
 
     @Column(unique = true)
+    @NotBlank
     private String username;
 
+    @NotBlank
     private String password;
 
     @Column(unique = true)
+    @NotBlank
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
 
     /**
